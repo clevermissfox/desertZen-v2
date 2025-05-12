@@ -1,71 +1,100 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Switch, ScrollView, Image, Platform } from 'react-native';
-import { useTheme } from '../../hooks/useTheme';
-import { ThemeToggle } from '../../components/ThemeToggle';
-import Spacing from '../../constants/Spacing';
-import Typography from '../../constants/Typography';
-import { User, Bell, Moon, Volume2, Clock, Download, Settings, ChevronRight } from 'lucide-react-native';
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Switch,
+  ScrollView,
+  Image,
+  Platform,
+} from "react-native";
+import { useTheme } from "../../hooks/useTheme";
+import { ThemeToggle } from "../../components/ThemeToggle";
+import Spacing from "../../constants/Spacing";
+import Typography from "../../constants/Typography";
+import { Ionicons } from "@expo/vector-icons";
+// import {
+//   User,
+//   Bell,
+//   Moon,
+//   Volume2,
+//   Clock,
+//   Download,
+//   Settings,
+//   ChevronRight,
+// } from "lucide-react-native";
 
 export default function ProfileScreen() {
   const { theme, isDark, setTheme } = useTheme();
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [autoDownloadEnabled, setAutoDownloadEnabled] = useState(false);
-  
+
   // Placeholder for user login state
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  
-  const SettingItem = ({ icon, title, onPress, showToggle = false, toggleValue = false, onToggleChange = () => {} }) => (
-    <TouchableOpacity 
-      style={[styles.settingItem, { borderBottomColor: theme.border }]} 
+
+  const SettingItem = ({
+    icon,
+    title,
+    onPress,
+    showToggle = false,
+    toggleValue = false,
+    onToggleChange = () => {},
+  }) => (
+    <TouchableOpacity
+      style={[styles.settingItem, { borderBottomColor: theme.border }]}
       onPress={onPress}
     >
-      <View style={styles.settingIconContainer}>
-        {icon}
-      </View>
-      <Text style={[styles.settingText, { color: theme.text }]}>
-        {title}
-      </Text>
+      <View style={styles.settingIconContainer}>{icon}</View>
+      <Text style={[styles.settingText, { color: theme.text }]}>{title}</Text>
       <View style={styles.settingRightContainer}>
         {showToggle ? (
           <Switch
             value={toggleValue}
             onValueChange={onToggleChange}
-            trackColor={{ 
-              false: isDark ? theme.border : '#D1D5DB',
-              true: theme.accent 
+            trackColor={{
+              false: isDark ? theme.border : "#D1D5DB",
+              true: theme.accent,
             }}
             thumbColor={Platform.select({
-              web: toggleValue ? '#ffffff' : isDark ? '#ffffff' : '#F3F4F6',
-              default: isDark ? '#ffffff' : toggleValue ? '#ffffff' : '#F3F4F6'
+              web: toggleValue ? "#ffffff" : isDark ? "#ffffff" : "#F3F4F6",
+              default: isDark ? "#ffffff" : toggleValue ? "#ffffff" : "#F3F4F6",
             })}
-            ios_backgroundColor={isDark ? theme.border : '#D1D5DB'}
+            ios_backgroundColor={isDark ? theme.border : "#D1D5DB"}
             style={Platform.select({
               web: {
                 opacity: 1,
-                transform: [{scale: 0.8}]
+                transform: [{ scale: 0.8 }],
               },
-              default: {}
+              default: {},
             })}
           />
         ) : (
-          <ChevronRight size={20} color={theme.textTertiary} />
+          <Ionicons
+            name="chevron-forward"
+            size={20}
+            color={theme.textTertiary}
+          />
         )}
       </View>
     </TouchableOpacity>
   );
-  
+
   const GuestView = () => (
     <View style={styles.guestContainer}>
-      <View style={[styles.guestIconContainer, { backgroundColor: theme.secondaryLight }]}>
-        <User size={40} color={theme.primary} />
+      <View
+        style={[
+          styles.guestIconContainer,
+          { backgroundColor: theme.secondaryLight },
+        ]}
+      >
+        <Ionicons name="person" size={40} color={theme.primary} />
       </View>
-      <Text style={[styles.guestTitle, { color: theme.text }]}>
-        Guest Mode
-      </Text>
+      <Text style={[styles.guestTitle, { color: theme.text }]}>Guest Mode</Text>
       <Text style={[styles.guestText, { color: theme.textSecondary }]}>
         Create an account to save your favorites and track your progress.
       </Text>
-      <TouchableOpacity 
+      <TouchableOpacity
         style={[styles.loginButton, { backgroundColor: theme.primary }]}
         onPress={() => setIsLoggedIn(true)} // Just for demo
       >
@@ -73,22 +102,22 @@ export default function ProfileScreen() {
       </TouchableOpacity>
     </View>
   );
-  
+
   const UserProfileView = () => (
     <View style={styles.userProfileContainer}>
-      <Image 
-        source={{ uri: 'https://images.pexels.com/photos/1858175/pexels-photo-1858175.jpeg' }}
+      <Image
+        source={{
+          uri: "https://images.pexels.com/photos/1858175/pexels-photo-1858175.jpeg",
+        }}
         style={styles.profileImage}
       />
       <View style={styles.userInfo}>
-        <Text style={[styles.userName, { color: theme.text }]}>
-          John Doe
-        </Text>
+        <Text style={[styles.userName, { color: theme.text }]}>John Doe</Text>
         <Text style={[styles.userEmail, { color: theme.textSecondary }]}>
           john.doe@example.com
         </Text>
       </View>
-      <TouchableOpacity 
+      <TouchableOpacity
         style={[styles.editButton, { borderColor: theme.border }]}
         onPress={() => {}}
       >
@@ -100,7 +129,7 @@ export default function ProfileScreen() {
   );
 
   return (
-    <ScrollView 
+    <ScrollView
       style={[styles.container, { backgroundColor: theme.background }]}
       contentContainerStyle={styles.contentContainer}
       showsVerticalScrollIndicator={false}
@@ -109,35 +138,42 @@ export default function ProfileScreen() {
         <Text style={[styles.title, { color: theme.text }]}>Profile</Text>
         <ThemeToggle />
       </View>
-      
+
       {isLoggedIn ? <UserProfileView /> : <GuestView />}
-      
+
       <View style={styles.settingsContainer}>
         <Text style={[styles.sectionTitle, { color: theme.text }]}>
           App Settings
         </Text>
-        
-        <View style={[styles.settingsGroup, { backgroundColor: theme.card, borderColor: theme.border }]}>
+
+        <View
+          style={[
+            styles.settingsGroup,
+            { backgroundColor: theme.card, borderColor: theme.border },
+          ]}
+        >
           <SettingItem
-            icon={<Bell size={22} color={theme.primary} />}
+            icon={
+              <Ionicons name="notifications" size={22} color={theme.primary} />
+            }
             title="Notifications"
             showToggle={true}
             toggleValue={notificationsEnabled}
             onToggleChange={setNotificationsEnabled}
             onPress={() => {}}
           />
-          
+
           <SettingItem
-            icon={<Moon size={22} color={theme.primary} />}
+            icon={<Ionicons name="moon" size={22} color={theme.primary} />}
             title="Dark Mode"
             showToggle={true}
             toggleValue={isDark}
             onToggleChange={(value) => setTheme(value)}
             onPress={() => {}}
           />
-          
+
           <SettingItem
-            icon={<Download size={22} color={theme.primary} />}
+            icon={<Ionicons name="download" size={22} color={theme.primary} />}
             title="Auto Download"
             showToggle={true}
             toggleValue={autoDownloadEnabled}
@@ -145,38 +181,48 @@ export default function ProfileScreen() {
             onPress={() => {}}
           />
         </View>
-        
+
         <Text style={[styles.sectionTitle, { color: theme.text }]}>
           Playback
         </Text>
-        
-        <View style={[styles.settingsGroup, { backgroundColor: theme.card, borderColor: theme.border }]}>
+
+        <View
+          style={[
+            styles.settingsGroup,
+            { backgroundColor: theme.card, borderColor: theme.border },
+          ]}
+        >
           <SettingItem
-            icon={<Volume2 size={22} color={theme.primary} />}
+            icon={
+              <Ionicons name="volume-high" size={22} color={theme.primary} />
+            }
             title="Audio Quality"
             onPress={() => {}}
           />
-          
+
           <SettingItem
-            icon={<Clock size={22} color={theme.primary} />}
+            icon={<Ionicons name="time" size={22} color={theme.primary} />}
             title="Sleep Timer"
             onPress={() => {}}
           />
         </View>
-        
-        <Text style={[styles.sectionTitle, { color: theme.text }]}>
-          Other
-        </Text>
-        
-        <View style={[styles.settingsGroup, { backgroundColor: theme.card, borderColor: theme.border }]}>
+
+        <Text style={[styles.sectionTitle, { color: theme.text }]}>Other</Text>
+
+        <View
+          style={[
+            styles.settingsGroup,
+            { backgroundColor: theme.card, borderColor: theme.border },
+          ]}
+        >
           <SettingItem
-            icon={<Settings size={22} color={theme.primary} />}
+            icon={<Ionicons name="settings" size={22} color={theme.primary} />}
             title="About Desert Zen"
             onPress={() => {}}
           />
-          
+
           {isLoggedIn && (
-            <TouchableOpacity 
+            <TouchableOpacity
               style={styles.logoutButton}
               onPress={() => setIsLoggedIn(false)} // Just for demo
             >
@@ -187,7 +233,7 @@ export default function ProfileScreen() {
           )}
         </View>
       </View>
-      
+
       <Text style={[styles.versionText, { color: theme.textTertiary }]}>
         Version 1.0.0
       </Text>
@@ -203,18 +249,18 @@ const styles = StyleSheet.create({
     paddingBottom: Spacing.xxl,
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingHorizontal: Spacing.md,
     paddingVertical: Spacing.lg,
   },
   title: {
     fontSize: Typography.fontSizes.xxl,
-    fontFamily: 'Inter-Bold',
+    fontFamily: "Inter-Bold",
   },
   guestContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     padding: Spacing.lg,
     marginBottom: Spacing.lg,
   },
@@ -222,19 +268,19 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginBottom: Spacing.md,
   },
   guestTitle: {
-    fontFamily: 'Inter-Bold',
+    fontFamily: "Inter-Bold",
     fontSize: Typography.fontSizes.xl,
     marginBottom: Spacing.sm,
   },
   guestText: {
-    fontFamily: 'Inter-Regular',
+    fontFamily: "Inter-Regular",
     fontSize: Typography.fontSizes.md,
-    textAlign: 'center',
+    textAlign: "center",
     marginBottom: Spacing.lg,
     lineHeight: Typography.lineHeights.body * Typography.fontSizes.md,
   },
@@ -244,13 +290,13 @@ const styles = StyleSheet.create({
     borderRadius: 24,
   },
   loginButtonText: {
-    color: 'white',
-    fontFamily: 'Inter-Medium',
+    color: "white",
+    fontFamily: "Inter-Medium",
     fontSize: Typography.fontSizes.md,
   },
   userProfileContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     padding: Spacing.md,
     marginBottom: Spacing.lg,
   },
@@ -264,12 +310,12 @@ const styles = StyleSheet.create({
     marginLeft: Spacing.lg,
   },
   userName: {
-    fontFamily: 'Inter-Bold',
+    fontFamily: "Inter-Bold",
     fontSize: Typography.fontSizes.lg,
     marginBottom: Spacing.xs,
   },
   userEmail: {
-    fontFamily: 'Inter-Regular',
+    fontFamily: "Inter-Regular",
     fontSize: Typography.fontSizes.md,
   },
   editButton: {
@@ -279,26 +325,26 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.md,
   },
   editButtonText: {
-    fontFamily: 'Inter-Medium',
+    fontFamily: "Inter-Medium",
     fontSize: Typography.fontSizes.sm,
   },
   settingsContainer: {
     paddingHorizontal: Spacing.md,
   },
   sectionTitle: {
-    fontFamily: 'Inter-Bold',
+    fontFamily: "Inter-Bold",
     fontSize: Typography.fontSizes.md,
     marginBottom: Spacing.sm,
   },
   settingsGroup: {
     borderRadius: 12,
-    overflow: 'hidden',
+    overflow: "hidden",
     marginBottom: Spacing.lg,
     borderWidth: 1,
   },
   settingItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     paddingVertical: Spacing.md,
     paddingHorizontal: Spacing.md,
     borderBottomWidth: 1,
@@ -306,13 +352,13 @@ const styles = StyleSheet.create({
   settingIconContainer: {
     width: 36,
     height: 36,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginRight: Spacing.md,
   },
   settingText: {
     flex: 1,
-    fontFamily: 'Inter-Regular',
+    fontFamily: "Inter-Regular",
     fontSize: Typography.fontSizes.md,
   },
   settingRightContainer: {
@@ -320,15 +366,15 @@ const styles = StyleSheet.create({
   },
   logoutButton: {
     padding: Spacing.md,
-    alignItems: 'center',
+    alignItems: "center",
   },
   logoutText: {
-    fontFamily: 'Inter-Medium',
+    fontFamily: "Inter-Medium",
     fontSize: Typography.fontSizes.md,
   },
   versionText: {
-    textAlign: 'center',
-    fontFamily: 'Inter-Regular',
+    textAlign: "center",
+    fontFamily: "Inter-Regular",
     fontSize: Typography.fontSizes.sm,
     marginTop: Spacing.lg,
   },

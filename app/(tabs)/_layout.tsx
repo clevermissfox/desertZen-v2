@@ -1,15 +1,16 @@
-import React, { useEffect } from 'react';
-import { Tabs } from 'expo-router';
-import { Chrome as Home, Compass, Heart, User } from 'lucide-react-native';
-import { useTheme } from '../../hooks/useTheme';
-import { useFonts } from 'expo-font';
-import { SplashScreen } from 'expo-router';
-import { useFrameworkReady } from '@/hooks/useFrameworkReady';
+import React, { useEffect } from "react";
+import { Tabs } from "expo-router";
+// import { Chrome as Home, Compass, Heart, User } from 'lucide-react-native';
+import { Ionicons } from "@expo/vector-icons";
+import { useTheme } from "../../hooks/useTheme";
+import { useFonts } from "expo-font";
+import { SplashScreen } from "expo-router";
+import { useFrameworkReady } from "@/hooks/useFrameworkReady";
 import {
   Inter_400Regular,
   Inter_500Medium,
-  Inter_700Bold
-} from '@expo-google-fonts/inter';
+  Inter_700Bold,
+} from "@expo-google-fonts/inter";
 
 export default function TabLayout() {
   useFrameworkReady();
@@ -17,9 +18,9 @@ export default function TabLayout() {
 
   // Load fonts
   const [fontsLoaded, fontError] = useFonts({
-    'Inter-Regular': Inter_400Regular,
-    'Inter-Medium': Inter_500Medium,
-    'Inter-Bold': Inter_700Bold,
+    "Inter-Regular": Inter_400Regular,
+    "Inter-Medium": Inter_500Medium,
+    "Inter-Bold": Inter_700Bold,
   });
 
   useEffect(() => {
@@ -48,33 +49,42 @@ export default function TabLayout() {
         },
         headerTintColor: theme.text,
         headerShadowVisible: false,
-      }}>
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color, size }) => <Home size={size} color={color} />,
+          title: "Home",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="home" size={size} color={color} />
+          ),
         }}
       />
       <Tabs.Screen
         name="discover"
         options={{
-          title: 'Discover',
-          tabBarIcon: ({ color, size }) => <Compass size={size} color={color} />,
+          title: "Discover",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="compass" size={size} color={color} />
+          ),
         }}
       />
       <Tabs.Screen
         name="favorites"
         options={{
-          title: 'Favorites',
-          tabBarIcon: ({ color, size }) => <Heart size={size} color={color} />,
+          title: "Favorites",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="heart" size={size} color={color} />
+          ),
         }}
       />
       <Tabs.Screen
         name="profile"
         options={{
-          title: 'Profile',
-          tabBarIcon: ({ color, size }) => <User size={size} color={color} />,
+          title: "Profile",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="person" size={size} color={color} />
+          ),
         }}
       />
     </Tabs>

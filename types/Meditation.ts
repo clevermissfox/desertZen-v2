@@ -1,11 +1,14 @@
 export type MeditationCategory =
-  | 'morning'
-  | 'anxiety-stress'
-  | 'sleep'
-  | 'body-scan'
-  | 'guided-imagery';
+  | "morning"
+  | "anxiety-stress"
+  | "sleep"
+  | "body-scan"
+  | "guided-imagery"
+  | "breathing"
+  | "anxiety-relief"
+  | "women";
 
-export type MeditationLength = '5m' | '10m' | '15m' | '30m' | '45m' | '60m';
+export type MeditationLength = "5m" | "10m" | "15m" | "30m" | "45m" | "60m";
 
 export interface Meditation {
   id: string;

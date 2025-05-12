@@ -1,134 +1,148 @@
-import { Meditation } from '../types/Meditation';
+import { Meditation } from "../types/Meditation";
 
 export const meditations: Meditation[] = [
   {
-    id: '1',
-    title: 'Morning Sunrise',
-    description: 'Begin your day with this gentle meditation to set positive intentions and energize your mind.',
-    category: 'morning',
-    length: '10m',
-    audioUrl: 'https://icodethis.com/audio/forest.mp3',
-    imageUrl: 'https://images.pexels.com/photos/3571551/pexels-photo-3571551.jpeg',
+    id: "1",
+    title: "Finding Calm",
+    description: "A meditation to help you find your inner peace and breath.",
+    category: "breathing",
+    length: "5m",
+    audioUrl:
+      "https://github.com/clevermissfox/Hosted-Assets/raw/refs/heads/main/1-Finding_Calm.m4a",
+    imageUrl:
+      "https://images.pexels.com/photos/414136/pexels-photo-414136.jpeg",
+    featured: false,
+    createdAt: "2024-05-01",
+  },
+  {
+    id: "2",
+    title: "Drifting into Rest",
+    description: "A meditation to bring help you find your dreams.",
+    category: "sleep",
+    length: "15m",
+    audioUrl: "https://icodethis.com/audio/garage.mp3",
+    imageUrl:
+      "https://images.pexels.com/photos/1579385/pexels-photo-1579385.jpeg",
+    featured: false,
+    createdAt: "2024-05-02",
+  },
+  {
+    id: "3",
+    title: "Coming Home to Your Body",
+    description: "A meditation to help you return to your body.",
+    category: "body-scan",
+    length: "30m",
+    audioUrl: "https://icodethis.com/audio/forest.mp3",
+    imageUrl:
+      "https://images.pexels.com/photos/718324/pexels-photo-718324.jpeg",
+    featured: false,
+    createdAt: "2024-05-03",
+  },
+  {
+    id: "4",
+    title: "Anxiety & Stress Relief",
+    description: "A meditation to help reduce your anxiety.",
+    category: "anxiety-relief",
+    length: "15m",
+    audioUrl:
+      "https://github.com/clevermissfox/Hosted-Assets/raw/refs/heads/main/4-Anxiety_and_stress-relief.m4a",
+    imageUrl:
+      "https://images.pexels.com/photos/2882603/pexels-photo-2882603.jpeg",
+    featured: false,
+    createdAt: "2024-05-04",
+  },
+  {
+    id: "5",
+    title: "Body Scan",
+    description: "A meditation for Deep Relaxation.",
+    category: "body-scan",
+    length: "30m",
+    audioUrl: "https://icodethis.com/audio/forest.mp3",
+    imageUrl:
+      "https://images.pexels.com/photos/7459424/pexels-photo-7459424.jpeg",
     featured: true,
-    createdAt: '2024-05-01',
+    createdAt: "2024-05-05",
   },
   {
-    id: '2',
-    title: 'Calm Waters',
-    description: 'Reduce anxiety with this soothing meditation focused on deep breathing and relaxation.',
-    category: 'anxiety-stress',
-    length: '15m',
-    audioUrl: 'https://icodethis.com/audio/garage.mp3',
-    imageUrl: 'https://images.pexels.com/photos/1295138/pexels-photo-1295138.jpeg',
+    id: "6",
+    title: "Meditation for Grief and Loss",
+    description: "A meditation for those who have lost.",
+    category: "anxiety-relief",
+    length: "5m",
+    audioUrl:
+      "https://github.com/clevermissfox/Hosted-Assets/raw/refs/heads/main/6-Meditation%20_for_Grief%20_and_Loss.m4a",
+    imageUrl:
+      "https://images.pexels.com/photos/27366119/pexels-photo-27366119/free-photo-of-view-of-a-field-with-cacti-and-the-mountains-in-the-background.jpeg",
+    featured: false,
+    createdAt: "2024-05-06",
+  },
+  {
+    id: "7",
+    title: "A Walk on the Beach",
+    description: "A meditation for Women.",
+    category: "women",
+    length: "10m",
+    audioUrl: "https://icodethis.com/audio/forest.mp3",
+    imageUrl:
+      "https://images.pexels.com/photos/2265090/pexels-photo-2265090.jpeg",
+    featured: false,
+    createdAt: "2024-05-07",
+  },
+  {
+    id: "8",
+    title: "Embracing Inner Strength and Peace",
+    description: "A meditation to find your inner strength.",
+    category: "women",
+    length: "10m",
+    audioUrl: "https://icodethis.com/audio/forest.mp3",
+    imageUrl:
+      "https://images.pexels.com/photos/2749600/pexels-photo-2749600.jpeg",
     featured: true,
-    createdAt: '2024-05-02',
+    createdAt: "2024-05-08",
   },
   {
-    id: '3',
-    title: 'Peaceful Night',
-    description: 'Prepare for sleep with this gentle meditation that helps quiet the mind.',
-    category: 'sleep',
-    length: '30m',
-    audioUrl: 'https://icodethis.com/audio/forest.mp3',
-    imageUrl: 'https://images.pexels.com/photos/355887/pexels-photo-355887.jpeg',
+    id: "9",
+    title: "You are Doing Enough",
+    description: "A meditation for Busy Parents.",
+    category: "body-scan",
+    length: "30m",
+    audioUrl: "https://icodethis.com/audio/forest.mp3",
+    imageUrl:
+      "https://images.pexels.com/photos/764998/pexels-photo-764998.jpeg",
     featured: false,
-    createdAt: '2024-05-03',
+    createdAt: "2024-05-09",
   },
   {
-    id: '4',
-    title: 'Body Awareness',
-    description: 'A progressive body scan to help you connect with physical sensations and release tension.',
-    category: 'body-scan',
-    length: '15m',
-    audioUrl: 'https://icodethis.com/audio/forest.mp3',
-    imageUrl: 'https://images.pexels.com/photos/3560044/pexels-photo-3560044.jpeg',
+    id: "10",
+    title: "Releasing Shame and Remembering Your Worth",
+    description: "A meditation for Women.",
+    category: "guided-imagery",
+    length: "45m",
+    audioUrl:
+      "https://docs.google.com/uc?export=download&id=1dSz08Kamd3D74c5DFCFcjyPUaphV-22p",
+    imageUrl:
+      "https://images.pexels.com/photos/8979735/pexels-photo-8979735.jpeg",
     featured: false,
-    createdAt: '2024-05-04',
-  },
-  {
-    id: '5',
-    title: 'Mountain Journey',
-    description: 'A guided imagery meditation that takes you on a peaceful journey through a mountain landscape.',
-    category: 'guided-imagery',
-    length: '30m',
-    audioUrl: 'https://icodethis.com/audio/forest.mp3',
-    imageUrl: 'https://images.pexels.com/photos/933054/pexels-photo-933054.jpeg',
-    featured: true,
-    createdAt: '2024-05-05',
-  },
-  {
-    id: '6',
-    title: 'Quick Calm',
-    description: 'A brief meditation for moments when you need to quickly center yourself.',
-    category: 'anxiety-stress',
-    length: '5m',
-    audioUrl: 'https://icodethis.com/audio/forest.mp3',
-    imageUrl: 'https://images.pexels.com/photos/1051449/pexels-photo-1051449.jpeg',
-    featured: false,
-    createdAt: '2024-05-06',
-  },
-  {
-    id: '7',
-    title: 'Deep Sleep',
-    description: 'A longer meditation designed to help you fall into a deep, restful sleep.',
-    category: 'sleep',
-    length: '45m',
-    audioUrl: 'https://icodethis.com/audio/forest.mp3',
-    imageUrl: 'https://images.pexels.com/photos/3560168/pexels-photo-3560168.jpeg',
-    featured: false,
-    createdAt: '2024-05-07',
-  },
-  {
-    id: '8',
-    title: 'Dawn Awakening',
-    description: 'Start your day with mindfulness and gratitude in this short morning practice.',
-    category: 'morning',
-    length: '5m',
-    audioUrl: 'https://icodethis.com/audio/forest.mp3',
-    imageUrl: 'https://images.pexels.com/photos/1174732/pexels-photo-1174732.jpeg',
-    featured: false,
-    createdAt: '2024-05-08',
-  },
-  {
-    id: '9',
-    title: 'Complete Body Scan',
-    description: 'A comprehensive scan to release tension from head to toe.',
-    category: 'body-scan',
-    length: '30m',
-    audioUrl: 'https://icodethis.com/audio/forest.mp3',
-    imageUrl: 'https://images.pexels.com/photos/1659438/pexels-photo-1659438.jpeg',
-    featured: false,
-    createdAt: '2024-05-09',
-  },
-  {
-    id: '10',
-    title: 'Ocean Waves',
-    description: 'A guided journey to a peaceful beach where you can relax to the sound of gentle waves.',
-    category: 'guided-imagery',
-    length: '45m',
-    audioUrl: 'https://icodethis.com/audio/forest.mp3',
-    imageUrl: 'https://images.pexels.com/photos/1001682/pexels-photo-1001682.jpeg',
-    featured: false,
-    createdAt: '2024-05-10',
+    createdAt: "2024-05-10",
   },
 ];
 
 export const getFeaturedMeditations = (): Meditation[] => {
-  return meditations.filter(meditation => meditation.featured);
+  return meditations.filter((meditation) => meditation.featured);
 };
 
 export const getMeditationsByCategory = (category: string): Meditation[] => {
-  return meditations.filter(meditation => meditation.category === category);
+  return meditations.filter((meditation) => meditation.category === category);
 };
 
 export const getMeditationById = (id: string): Meditation | undefined => {
-  return meditations.find(meditation => meditation.id === id);
+  return meditations.find((meditation) => meditation.id === id);
 };
 
 export const searchMeditations = (query: string): Meditation[] => {
   const lowercaseQuery = query.toLowerCase();
   return meditations.filter(
-    meditation =>
+    (meditation) =>
       meditation.title.toLowerCase().includes(lowercaseQuery) ||
       meditation.description.toLowerCase().includes(lowercaseQuery)
   );

@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
-import { Audio } from 'expo-av';
-import { Platform } from 'react-native';
+import { useState, useEffect } from "react";
+import { Audio } from "expo-av"; // will need to be transitioned to expo-audio (already installed)
+import { Platform } from "react-native";
 
 export function useAudioPlayer(audioUri: string | null) {
   const [sound, setSound] = useState<Audio.Sound | null>(null);
@@ -22,10 +22,10 @@ export function useAudioPlayer(audioUri: string | null) {
   const loadAudio = async () => {
     try {
       if (!audioUri) return;
-      
+
       setIsLoading(true);
       setError(null);
-      
+
       if (sound) {
         await sound.unloadAsync();
       }
@@ -35,25 +35,25 @@ export function useAudioPlayer(audioUri: string | null) {
         playsInSilentModeIOS: true,
         staysActiveInBackground: true,
         shouldDuckAndroid: true,
-        playThroughEarpieceAndroid: false
+        playThroughEarpieceAndroid: false,
       });
-      
+
       const { sound: newSound } = await Audio.Sound.createAsync(
         { uri: audioUri },
-        { 
+        {
           shouldPlay: false,
           progressUpdateIntervalMillis: 100,
           positionMillis: 0,
         },
         onPlaybackStatusUpdate
       );
-      
+
       setSound(newSound);
       setIsLoading(false);
     } catch (err) {
       setIsLoading(false);
-      setError('Failed to load audio');
-      console.error('Error loading audio:', err);
+      setError("Failed to load audio");
+      console.error("Error loading audio:", err);
     }
   };
 
@@ -65,8 +65,8 @@ export function useAudioPlayer(audioUri: string | null) {
       }
       setIsPlaying(status.isPlaying);
     } else if (status.error) {
-      console.error('Playback error:', status.error);
-      setError('Error playing audio');
+      console.error("Playback error:", status.error);
+      setError("Error playing audio");
     }
   };
 
@@ -75,14 +75,14 @@ export function useAudioPlayer(audioUri: string | null) {
       if (!sound) {
         await loadAudio();
       }
-      
+
       if (sound) {
         await sound.playAsync();
         setIsPlaying(true);
       }
     } catch (err) {
-      setError('Failed to play audio');
-      console.error('Error playing sound:', err);
+      setError("Failed to play audio");
+      console.error("Error playing sound:", err);
     }
   };
 
@@ -93,8 +93,8 @@ export function useAudioPlayer(audioUri: string | null) {
         setIsPlaying(false);
       }
     } catch (err) {
-      setError('Failed to pause audio');
-      console.error('Error pausing sound:', err);
+      setError("Failed to pause audio");
+      console.error("Error pausing sound:", err);
     }
   };
 
@@ -105,8 +105,8 @@ export function useAudioPlayer(audioUri: string | null) {
         setPosition(positionMillis);
       }
     } catch (err) {
-      setError('Failed to seek audio');
-      console.error('Error seeking sound:', err);
+      setError("Failed to seek audio");
+      console.error("Error seeking sound:", err);
     }
   };
 
@@ -117,8 +117,8 @@ export function useAudioPlayer(audioUri: string | null) {
         await seekSound(newPosition);
       }
     } catch (err) {
-      setError('Failed to skip forward');
-      console.error('Error skipping forward:', err);
+      setError("Failed to skip forward");
+      console.error("Error skipping forward:", err);
     }
   };
 
@@ -129,8 +129,8 @@ export function useAudioPlayer(audioUri: string | null) {
         await seekSound(newPosition);
       }
     } catch (err) {
-      setError('Failed to skip backward');
-      console.error('Error skipping backward:', err);
+      setError("Failed to skip backward");
+      console.error("Error skipping backward:", err);
     }
   };
 
@@ -149,7 +149,7 @@ export function useAudioPlayer(audioUri: string | null) {
     if (audioUri) {
       loadAudio();
     }
-    
+
     return () => {
       if (sound) {
         sound.unloadAsync();
