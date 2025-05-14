@@ -8,7 +8,7 @@ export const meditations: Meditation[] = [
     category: "breathing",
     length: "5m",
     audioUrl:
-      "https://github.com/clevermissfox/Hosted-Assets/raw/refs/heads/main/1-Finding_Calm.m4a",
+      "https://docs.google.com/uc?export=view&id=1dMtRXUd4l9V1KgmZ765UhOvd1aHZ2MJU",
     imageUrl:
       "https://images.pexels.com/photos/414136/pexels-photo-414136.jpeg",
     featured: false,
@@ -20,7 +20,8 @@ export const meditations: Meditation[] = [
     description: "A meditation to bring help you find your dreams.",
     category: "sleep",
     length: "15m",
-    audioUrl: "https://icodethis.com/audio/garage.mp3",
+    audioUrl:
+      "https://docs.google.com/uc?export=view&id=1bfsaMNn_wsc88675pTswJF9O-QDWxOzv",
     imageUrl:
       "https://images.pexels.com/photos/1579385/pexels-photo-1579385.jpeg",
     featured: false,
@@ -32,7 +33,8 @@ export const meditations: Meditation[] = [
     description: "A meditation to help you return to your body.",
     category: "body-scan",
     length: "30m",
-    audioUrl: "https://icodethis.com/audio/forest.mp3",
+    audioUrl:
+      "https://docs.google.com/uc?export=view&id=1u_TTGRQFv4S63s8RwB7W8mE-F9l680qu",
     imageUrl:
       "https://images.pexels.com/photos/718324/pexels-photo-718324.jpeg",
     featured: false,
@@ -40,12 +42,12 @@ export const meditations: Meditation[] = [
   },
   {
     id: "4",
-    title: "Anxiety & Stress Relief",
-    description: "A meditation to help reduce your anxiety.",
+    title: "Inner Awareness",
+    description: "A meditation to help soothe anxious thoughts.",
     category: "anxiety-relief",
     length: "15m",
     audioUrl:
-      "https://github.com/clevermissfox/Hosted-Assets/raw/refs/heads/main/4-Anxiety_and_stress-relief.m4a",
+      "https://docs.google.com/uc?export=view&id=1Ju9ITX1tcDicmeEecaTQwJK4GgISHgk0",
     imageUrl:
       "https://images.pexels.com/photos/2882603/pexels-photo-2882603.jpeg",
     featured: false,
@@ -53,11 +55,12 @@ export const meditations: Meditation[] = [
   },
   {
     id: "5",
-    title: "Body Scan",
-    description: "A meditation for Deep Relaxation.",
+    title: "Head to Toe",
+    description: "A body scan meditation to bring you back to yourself.",
     category: "body-scan",
     length: "30m",
-    audioUrl: "https://icodethis.com/audio/forest.mp3",
+    audioUrl:
+      "https://docs.google.com/uc?export=view&id=1cfLSFNqKwPQcPDU_mqNMuphLJ1hdAEC2",
     imageUrl:
       "https://images.pexels.com/photos/7459424/pexels-photo-7459424.jpeg",
     featured: true,
@@ -70,7 +73,7 @@ export const meditations: Meditation[] = [
     category: "anxiety-relief",
     length: "5m",
     audioUrl:
-      "https://github.com/clevermissfox/Hosted-Assets/raw/refs/heads/main/6-Meditation%20_for_Grief%20_and_Loss.m4a",
+      "https://docs.google.com/uc?export=view&id=1TMRX80B2YqGa0nxxabaG5ol52bu-7CCs",
     imageUrl:
       "https://images.pexels.com/photos/27366119/pexels-photo-27366119/free-photo-of-view-of-a-field-with-cacti-and-the-mountains-in-the-background.jpeg",
     featured: false,
@@ -82,7 +85,8 @@ export const meditations: Meditation[] = [
     description: "A meditation for Women.",
     category: "women",
     length: "10m",
-    audioUrl: "https://icodethis.com/audio/forest.mp3",
+    audioUrl:
+      "https://docs.google.com/uc?export=view&id=1Jt-sR32bgEU1DtVjJx8a24_LVPbm3ljY",
     imageUrl:
       "https://images.pexels.com/photos/2265090/pexels-photo-2265090.jpeg",
     featured: false,
@@ -94,7 +98,8 @@ export const meditations: Meditation[] = [
     description: "A meditation to find your inner strength.",
     category: "women",
     length: "10m",
-    audioUrl: "https://icodethis.com/audio/forest.mp3",
+    audioUrl:
+      "https://docs.google.com/uc?export=view&id=1OAEHLoZrpTJKR7oHz2CqEkDCAXnPIzUg",
     imageUrl:
       "https://images.pexels.com/photos/2749600/pexels-photo-2749600.jpeg",
     featured: true,
@@ -106,7 +111,8 @@ export const meditations: Meditation[] = [
     description: "A meditation for Busy Parents.",
     category: "body-scan",
     length: "30m",
-    audioUrl: "https://icodethis.com/audio/forest.mp3",
+    audioUrl:
+      "https://docs.google.com/uc?export=view&id=1HzZC-MqsAr8NX_7Z5LLEdqjMBFHlMe_7",
     imageUrl:
       "https://images.pexels.com/photos/764998/pexels-photo-764998.jpeg",
     featured: false,
@@ -119,7 +125,7 @@ export const meditations: Meditation[] = [
     category: "guided-imagery",
     length: "45m",
     audioUrl:
-      "https://docs.google.com/uc?export=download&id=1dSz08Kamd3D74c5DFCFcjyPUaphV-22p",
+      "https://docs.google.com/uc?export=view&id=1dSz08Kamd3D74c5DFCFcjyPUaphV-22p",
     imageUrl:
       "https://images.pexels.com/photos/8979735/pexels-photo-8979735.jpeg",
     featured: false,

@@ -13,6 +13,7 @@ import {
 import { Meditation } from "@/types/Meditation";
 import Spacing from "../constants/Spacing";
 import Typography from "../constants/Typography";
+import { fontFamilies } from "@/constants/Fonts";
 import { useFavoriteMeditations } from "../hooks/useFavoriteMeditations";
 import { useTheme } from "../hooks/useTheme";
 
@@ -22,7 +23,7 @@ interface MeditationCardProps {
 }
 
 const { width } = Dimensions.get("window");
-const CARD_WIDTH = (featured) =>
+const CARD_WIDTH = (featured: Boolean) =>
   featured ? width - Spacing.md * 2 : width / 2 - Spacing.md * 1.5;
 
 export default function MeditationCard({
@@ -50,12 +51,15 @@ export default function MeditationCard({
   return (
     <TouchableOpacity
       style={[
-        styles.container,
+        viewStyles.container,
         {
           backgroundColor: theme.card,
           borderColor: theme.border,
           width: CARD_WIDTH(featured),
           minHeight: featured ? 280 : 220,
+          elevation: 1,
+          shadowColor: theme.secondary,
+          shadowOpacity: 0.02,
         },
       ]}
       onPress={handlePress}
@@ -73,29 +77,39 @@ export default function MeditationCard({
           size={20}
         />
       </TouchableOpacity>
-      <View style={styles.contentContainer}>
-        <Text style={[styles.title, { color: theme.text }]} numberOfLines={1}>
+      <View style={viewStyles.contentContainer}>
+        <Text
+          style={[textStyles.title, { color: theme.text }]}
+          numberOfLines={1}
+        >
           {meditation.title}
         </Text>
         <Text
-          style={[styles.description, { color: theme.textSecondary }]}
+          style={[textStyles.description, { color: theme.textSecondary }]}
           numberOfLines={2}
         >
           {meditation.description}
         </Text>
-        <View style={styles.metaContainer}>
-          <View style={styles.categoryContainer}>
+        <View style={viewStyles.metaContainer}>
+          <View style={viewStyles.categoryContainer}>
             <View
-              style={[styles.categoryBadge, { backgroundColor: theme.accent }]}
+              style={[
+                viewStyles.categoryBadge,
+                { backgroundColor: theme.accent },
+              ]}
             >
-              <Text style={[styles.categoryText, { color: "#fff" }]}>
+              <Text
+                style={[textStyles.categoryText, { color: theme.neutral100 }]}
+              >
                 {meditation.category.replace(/-/g, " ")}
               </Text>
             </View>
           </View>
-          <View style={styles.lengthContainer}>
+          <View style={viewStyles.lengthContainer}>
             <Ionicons name="time" size={12} color={theme.textTertiary} />
-            <Text style={[styles.lengthText, { color: theme.textTertiary }]}>
+            <Text
+              style={[textStyles.lengthText, { color: theme.textTertiary }]}
+            >
               {meditation.length}
             </Text>
           </View>
@@ -105,18 +119,60 @@ export default function MeditationCard({
   );
 }
 
-const styles = StyleSheet.create({
+const viewStyles = StyleSheet.create({
   container: {
     borderRadius: 12,
     overflow: "hidden",
     marginBottom: Spacing.md,
     borderWidth: 1,
-    elevation: 3,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
+    // shadowOffset: { width: 0, height: 1 },
   },
+  contentContainer: {
+    padding: Spacing.md,
+  },
+  metaContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  categoryContainer: {
+    flexDirection: "row",
+  },
+  categoryBadge: {
+    borderRadius: 12,
+    paddingHorizontal: Spacing.sm,
+    paddingVertical: 2,
+  },
+  lengthContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+});
+
+const textStyles = StyleSheet.create({
+  title: {
+    fontSize: Typography.fontSizes.lg,
+    // fontWeight: Typography.fontWeights.bold,
+    fontFamily: fontFamilies.bold,
+    marginBottom: Spacing.xs,
+  },
+  description: {
+    fontSize: Typography.fontSizes.sm,
+    marginBottom: Spacing.sm,
+  },
+  categoryText: {
+    fontSize: Typography.fontSizes.xs,
+    // fontWeight: Typography.fontWeights.medium,
+    fontFamily: fontFamilies.medium,
+    textTransform: "capitalize",
+  },
+  lengthText: {
+    fontSize: Typography.fontSizes.xs,
+    marginLeft: 4,
+  },
+});
+
+const styles = StyleSheet.create({
   image: {
     width: "100%",
     borderTopLeftRadius: 12,
@@ -132,44 +188,6 @@ const styles = StyleSheet.create({
     height: 36,
     justifyContent: "center",
     alignItems: "center",
-  },
-  contentContainer: {
-    padding: Spacing.md,
-  },
-  title: {
-    fontSize: Typography.fontSizes.lg,
-    fontWeight: Typography.fontWeights.bold,
-    marginBottom: Spacing.xs,
-  },
-  description: {
-    fontSize: Typography.fontSizes.sm,
-    marginBottom: Spacing.sm,
-  },
-  metaContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  categoryContainer: {
-    flexDirection: "row",
-  },
-  categoryBadge: {
-    borderRadius: 12,
-    paddingHorizontal: Spacing.sm,
-    paddingVertical: 2,
-  },
-  categoryText: {
-    fontSize: Typography.fontSizes.xs,
-    fontWeight: Typography.fontWeights.medium,
-    textTransform: "capitalize",
-  },
-  lengthContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  lengthText: {
-    fontSize: Typography.fontSizes.xs,
-    marginLeft: 4,
   },
 });
 

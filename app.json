@@ -16,6 +16,7 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.desertzen.app"
     },
+    "androidNavigationBar": { "backgroundColor": "#655F52" },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/icon.png",

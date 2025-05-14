@@ -1,5 +1,11 @@
 import React from "react";
-import { StyleSheet, Text, View, FlatList } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  TouchableOpacity,
+} from "react-native";
 import { useLocalSearchParams, useRouter, Stack } from "expo-router";
 import { useTheme } from "../../hooks/useTheme";
 import { MeditationCard } from "../../components/MeditationCard";
@@ -7,15 +13,16 @@ import { categories } from "../../data/categories";
 import { getMeditationsByCategory } from "../../data/meditations";
 import Spacing from "../../constants/Spacing";
 import Typography from "../../constants/Typography";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { fontFamilies } from "@/constants/Fonts";
+// import { TouchableOpacity } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
-import { ArrowLeft } from "lucide-react-native";
+// import { ArrowLeft } from "lucide-react-native";
 import { Meditation, MeditationLength } from "../../types/Meditation";
 
 export default function CategoryScreen() {
   const { id } = useLocalSearchParams();
   const router = useRouter();
-  const { theme } = useTheme();
+  const { theme, isDark } = useTheme();
 
   const category = categories.find((cat) => cat.id === id);
   const meditations = getMeditationsByCategory(id as string);
@@ -76,10 +83,16 @@ export default function CategoryScreen() {
                     key={index}
                     style={[
                       styles.lengthBadge,
-                      { backgroundColor: theme.secondary },
+                      {
+                        backgroundColor: isDark
+                          ? theme.secondary
+                          : theme.textSecondary,
+                      },
                     ]}
                   >
-                    <Text style={[styles.lengthText, { color: "#fff" }]}>
+                    <Text
+                      style={[styles.lengthText, { color: theme.neutral100 }]}
+                    >
                       {length}
                     </Text>
                   </View>
@@ -89,7 +102,7 @@ export default function CategoryScreen() {
           </View>
         </View>
 
-        <View style={styles.divider} />
+        <View style={[styles.divider, { backgroundColor: theme.border }]} />
 
         <View style={styles.meditationsContainer}>
           <Text style={[styles.meditationsTitle, { color: theme.text }]}>
@@ -125,9 +138,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    paddingTop: 60,
+    paddingTop: Spacing.xxxl,
     paddingHorizontal: Spacing.md,
-    paddingBottom: Spacing.lg,
+    paddingBottom: Spacing.md,
   },
   backButton: {
     width: 40,
@@ -142,12 +155,12 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontSize: Typography.fontSizes.xxl,
-    fontFamily: "Inter-Bold",
+    fontFamily: fontFamilies.bold,
     marginBottom: Spacing.sm,
   },
   headerDescription: {
     fontSize: Typography.fontSizes.md,
-    fontFamily: "Inter-Regular",
+    fontFamily: fontFamilies.regular,
     marginBottom: Spacing.lg,
     lineHeight: Typography.lineHeights.body * Typography.fontSizes.md,
   },
@@ -156,7 +169,7 @@ const styles = StyleSheet.create({
   },
   lengthsTitle: {
     fontSize: Typography.fontSizes.md,
-    fontFamily: "Inter-Medium",
+    fontFamily: fontFamilies.medium,
     marginBottom: Spacing.sm,
   },
   lengthBadgesContainer: {
@@ -171,11 +184,10 @@ const styles = StyleSheet.create({
   },
   lengthText: {
     fontSize: Typography.fontSizes.sm,
-    fontFamily: "Inter-Medium",
+    fontFamily: fontFamilies.medium,
   },
   divider: {
-    height: 8,
-    backgroundColor: "rgba(0, 0, 0, 0.05)",
+    height: 2,
   },
   meditationsContainer: {
     flex: 1,
@@ -183,7 +195,7 @@ const styles = StyleSheet.create({
   },
   meditationsTitle: {
     fontSize: Typography.fontSizes.lg,
-    fontFamily: "Inter-Bold",
+    fontFamily: fontFamilies.bold,
     marginBottom: Spacing.md,
   },
   listContent: {
@@ -198,7 +210,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   emptyText: {
-    fontFamily: "Inter-Regular",
+    fontFamily: fontFamilies.regular,
     textAlign: "center",
   },
 });

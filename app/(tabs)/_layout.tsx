@@ -3,25 +3,27 @@ import { Tabs } from "expo-router";
 // import { Chrome as Home, Compass, Heart, User } from 'lucide-react-native';
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "../../hooks/useTheme";
-import { useFonts } from "expo-font";
 import { SplashScreen } from "expo-router";
 import { useFrameworkReady } from "@/hooks/useFrameworkReady";
-import {
-  Inter_400Regular,
-  Inter_500Medium,
-  Inter_700Bold,
-} from "@expo-google-fonts/inter";
+import { useFonts } from "expo-font";
+import { fontAssets } from "@/constants/Fonts";
+// import {
+//   Inter_400Regular,
+//   Inter_500Medium,
+//   Inter_700Bold,
+// } from "@expo-google-fonts/inter";
 
 export default function TabLayout() {
   useFrameworkReady();
   const { theme } = useTheme();
 
   // Load fonts
-  const [fontsLoaded, fontError] = useFonts({
-    "Inter-Regular": Inter_400Regular,
-    "Inter-Medium": Inter_500Medium,
-    "Inter-Bold": Inter_700Bold,
-  });
+  const [fontsLoaded, fontError] = useFonts(fontAssets);
+  // const [fontsLoaded, fontError] = useFonts({
+  //   "Inter-Regular": Inter_400Regular,
+  //   "Inter-Medium": Inter_500Medium,
+  //   "Inter-Bold": Inter_700Bold,
+  // });
 
   useEffect(() => {
     if (fontsLoaded || fontError) {
@@ -38,8 +40,8 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: theme.primary,
-        tabBarInactiveTintColor: theme.textTertiary,
+        tabBarActiveTintColor: theme.accent,
+        tabBarInactiveTintColor: theme.textSecondary,
         tabBarStyle: {
           backgroundColor: theme.background,
           borderTopColor: theme.border,

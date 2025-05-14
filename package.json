@@ -13,6 +13,7 @@
   "dependencies": {
     "@expo-google-fonts/inter": "^0.3.0",
     "@expo-google-fonts/karla": "^0.3.0",
+    "@expo-google-fonts/lora": "^0.3.0",
     "@expo/vector-icons": "^14.1.0",
     "@lucide/lab": "^0.1.2",
     "@react-native-async-storage/async-storage": "2.1.2",
@@ -54,6 +55,7 @@
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@types/react": "~19.0.10",
+    "@types/react-native": "^0.72.8",
     "eslint": "^9.25.0",
     "eslint-config-expo": "~9.2.0",
     "typescript": "~5.8.3"

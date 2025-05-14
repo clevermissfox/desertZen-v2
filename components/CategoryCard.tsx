@@ -6,6 +6,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Category } from "@/types/Meditation";
 import Spacing from "../constants/Spacing";
 import Typography from "../constants/Typography";
+import { fontFamilies } from "@/constants/Fonts";
 import { getMeditationsByCategory } from "../data/meditations";
 import { useTheme } from "../hooks/useTheme";
 
@@ -15,7 +16,7 @@ interface CategoryCardProps {
 
 export default function CategoryCard({ category }: CategoryCardProps) {
   const router = useRouter();
-  const { theme } = useTheme();
+  const { theme, isDark } = useTheme();
 
   // Get actual meditations for this category
   const categoryMeditations = getMeditationsByCategory(category.id);
@@ -26,27 +27,29 @@ export default function CategoryCard({ category }: CategoryCardProps) {
   );
 
   const getIcon = () => {
+    const name = category.iconName;
+    // return <Ionicons name={`#{name}`} color={theme.accent} size={24} />;
     switch (category.iconName) {
-      case "sun":
-        return <Ionicons name="sunny" color={theme.primary} size={24} />;
+      case "sunny":
+        return <Ionicons name="sunny" color={theme.accent} size={24} />;
       case "moon":
-        return <Ionicons name="moon" color={theme.primary} size={24} />;
+        return <Ionicons name="moon" color={theme.accent} size={24} />;
       case "wind":
-        return <Ionicons name="cloudy" color={theme.primary} size={24} />;
-      case "activity":
-        return <Ionicons name="pulse" color={theme.primary} size={24} />;
+        return <Ionicons name="cloudy" color={theme.accent} size={24} />;
+      case "pulse":
+        return <Ionicons name="pulse" color={theme.accent} size={24} />;
       case "map":
-        return <Ionicons name="map" color={theme.primary} size={24} />;
+        return <Ionicons name="map" color={theme.accent} size={24} />;
+      case "triangle":
+        return <Ionicons name="triangle" color={theme.accent} size={24} />;
       case "logo-electron":
-        return (
-          <Ionicons name="logo-electron" color={theme.primary} size={24} />
-        );
+        return <Ionicons name="logo-electron" color={theme.accent} size={24} />;
       case "female-outline":
         return (
-          <Ionicons name="female-outline" color={theme.primary} size={24} />
+          <Ionicons name="female-outline" color={theme.accent} size={24} />
         );
       default:
-        return <Ionicons name="sunny" color={theme.primary} size={24} />;
+        return <Ionicons name="color-filter" color={theme.accent} size={24} />;
     }
   };
 
@@ -57,30 +60,48 @@ export default function CategoryCard({ category }: CategoryCardProps) {
   return (
     <TouchableOpacity
       style={[
-        styles.container,
-        { backgroundColor: theme.card, borderColor: theme.border },
+        viewStyles.container,
+        {
+          backgroundColor: theme.card,
+          borderColor: theme.border,
+          shadowColor: theme.secondary,
+          elevation: 1,
+          shadowOpacity: 0.02,
+        },
       ]}
       onPress={handlePress}
       activeOpacity={0.7}
     >
-      <View style={styles.iconContainer}>{getIcon()}</View>
-      <View style={styles.textContainer}>
-        <Text style={[styles.title, { color: theme.text }]} numberOfLines={1}>
+      <View style={viewStyles.iconContainer}>{getIcon()}</View>
+      <View style={viewStyles.textContainer}>
+        <Text
+          style={[textStyles.title, { color: theme.text }]}
+          numberOfLines={1}
+        >
           {category.name}
         </Text>
         <Text
-          style={[styles.description, { color: theme.textSecondary }]}
+          style={[textStyles.description, { color: theme.textSecondary }]}
           numberOfLines={2}
         >
           {category.description}
         </Text>
-        <View style={styles.lengthsContainer}>
+        <View style={viewStyles.lengthsContainer}>
           {availableLengths.map((length, index) => (
             <View
               key={index}
-              style={[styles.lengthBadge, { backgroundColor: theme.secondary }]}
+              style={[
+                viewStyles.lengthBadge,
+                {
+                  backgroundColor: isDark
+                    ? theme.secondary
+                    : theme.textSecondary,
+                },
+              ]}
             >
-              <Text style={[styles.lengthText, { color: "#fff" }]}>
+              <Text
+                style={[textStyles.lengthText, { color: theme.neutral100 }]}
+              >
                 {length}
               </Text>
             </View>
@@ -91,18 +112,15 @@ export default function CategoryCard({ category }: CategoryCardProps) {
   );
 }
 
-const styles = StyleSheet.create({
+const viewStyles = StyleSheet.create({
   container: {
     flexDirection: "row",
     borderRadius: 12,
     padding: Spacing.md,
     marginBottom: Spacing.md,
     borderWidth: 1,
-    elevation: 2,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
+    // shadowOffset: { width: 0, height: 1 },
+    // shadowRadius: 2,
   },
   iconContainer: {
     width: 48,
@@ -115,15 +133,7 @@ const styles = StyleSheet.create({
   textContainer: {
     flex: 1,
   },
-  title: {
-    fontSize: Typography.fontSizes.lg,
-    fontWeight: Typography.fontWeights.bold,
-    marginBottom: Spacing.xs,
-  },
-  description: {
-    fontSize: Typography.fontSizes.sm,
-    marginBottom: Spacing.sm,
-  },
+
   lengthsContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
@@ -135,9 +145,72 @@ const styles = StyleSheet.create({
     marginRight: Spacing.xs,
     marginBottom: Spacing.xs,
   },
+});
+
+const styles = StyleSheet.create({
+  // container: {
+  //   flexDirection: "row",
+  //   borderRadius: 12,
+  //   padding: Spacing.md,
+  //   marginBottom: Spacing.md,
+  //   borderWidth: 1,
+  //   shadowOffset: { width: 0, height: 1 },
+  //   shadowRadius: 2,
+  // },
+  // iconContainer: {
+  //   width: 48,
+  //   height: 48,
+  //   borderRadius: 24,
+  //   justifyContent: "center",
+  //   alignItems: "center",
+  //   marginRight: Spacing.md,
+  // },
+  // textContainer: {
+  //   flex: 1,
+  // },
+  // title: {
+  //   fontSize: Typography.fontSizes.lg,
+  //   // fontWeight: Typography.fontWeights.bold,
+  //   fontFamily: fontFamilies.bold,
+  //   marginBottom: Spacing.xs,
+  // },
+  // description: {
+  //   fontSize: Typography.fontSizes.sm,
+  //   marginBottom: Spacing.sm,
+  // },
+  // lengthsContainer: {
+  //   flexDirection: "row",
+  //   flexWrap: "wrap",
+  // },
+  // lengthBadge: {
+  //   borderRadius: 12,
+  //   paddingHorizontal: Spacing.sm,
+  //   paddingVertical: 2,
+  //   marginRight: Spacing.xs,
+  //   marginBottom: Spacing.xs,
+  // },
+  // lengthText: {
+  //   fontSize: Typography.fontSizes.xs,
+  //   fontWeight: Typography.fontWeights.medium,
+  //   fontFamily: fontFamilies.regular,
+  // },
+});
+
+const textStyles = StyleSheet.create({
+  title: {
+    fontSize: Typography.fontSizes.lg,
+    // fontWeight: Typography.fontWeights.bold,
+    fontFamily: fontFamilies.bold,
+    marginBottom: Spacing.xs,
+  },
+  description: {
+    fontSize: Typography.fontSizes.sm,
+    marginBottom: Spacing.sm,
+  },
   lengthText: {
     fontSize: Typography.fontSizes.xs,
-    fontWeight: Typography.fontWeights.medium,
+    // fontWeight: Typography.fontWeights.medium,
+    fontFamily: fontFamilies.medium,
   },
 });
 

@@ -1,6 +1,6 @@
 export type MeditationCategory =
-  | "morning"
-  | "anxiety-stress"
+  // | "morning"
+  // | "anxiety-stress"
   | "sleep"
   | "body-scan"
   | "guided-imagery"

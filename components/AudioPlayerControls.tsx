@@ -12,6 +12,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "../hooks/useTheme";
 import Spacing from "../constants/Spacing";
 import Typography from "../constants/Typography";
+import { fontFamilies } from "@/constants/Fonts";
 import { useAudioPlayer } from "../hooks/useAudioPlayer";
 import * as Haptics from "expo-haptics";
 import { Platform } from "react-native";
@@ -21,10 +22,7 @@ interface AudioPlayerControlsProps {
   title: string;
 }
 
-export function AudioPlayerControls({
-  audioUri,
-  title,
-}: AudioPlayerControlsProps) {
+function AudioPlayerControls({ audioUri, title }: AudioPlayerControlsProps) {
   const { theme } = useTheme();
   const {
     isPlaying,
@@ -85,9 +83,9 @@ export function AudioPlayerControls({
 
   if (error) {
     return (
-      <View style={[styles.container, styles.errorContainer]}>
+      <View style={[viewStyles.container, viewStyles.errorContainer]}>
         <Ionicons name="alert-circle" color={theme.error} size={24} />
-        <Text style={[styles.errorText, { color: theme.error }]}>
+        <Text style={[textStyles.errorText, { color: theme.error }]}>
           Failed to load audio
         </Text>
       </View>
@@ -95,16 +93,16 @@ export function AudioPlayerControls({
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={[styles.title, { color: theme.text }]} numberOfLines={1}>
+    <View style={viewStyles.container}>
+      {/* <Text style={[styles.title, { color: theme.text }]} numberOfLines={1}>
         {title}
-      </Text>
+      </Text> */}
 
-      <View style={styles.timeContainer}>
-        <Text style={[styles.timeText, { color: theme.textSecondary }]}>
+      <View style={viewStyles.timeContainer}>
+        <Text style={[textStyles.timeText, { color: theme.textSecondary }]}>
           {timeDisplayed}
         </Text>
-        <Text style={[styles.timeText, { color: theme.textSecondary }]}>
+        <Text style={[textStyles.timeText, { color: theme.textSecondary }]}>
           {durationDisplayed}
         </Text>
       </View>
@@ -116,13 +114,13 @@ export function AudioPlayerControls({
         value={duration ? position / duration : 0}
         onSlidingStart={onSlidingStart}
         onSlidingComplete={onSlidingComplete}
-        minimumTrackTintColor={theme.primary}
-        maximumTrackTintColor={theme.border}
-        thumbTintColor={theme.primary}
+        minimumTrackTintColor={theme.accent}
+        maximumTrackTintColor={theme.textTertiary}
+        thumbTintColor={theme.accent}
         disabled={isLoading}
       />
 
-      <View style={styles.controlsContainer}>
+      <View style={viewStyles.controlsContainer}>
         <TouchableOpacity
           style={styles.skipButton}
           onPress={handleSkipBack}
@@ -138,18 +136,18 @@ export function AudioPlayerControls({
         <TouchableOpacity
           style={[
             styles.playButton,
-            { backgroundColor: theme.primary },
+            { backgroundColor: theme.accent },
             isLoading && { opacity: 0.7 },
           ]}
           onPress={handlePlayPause}
           disabled={isLoading}
         >
           {isLoading ? (
-            <ActivityIndicator color={theme.card} size="small" />
+            <ActivityIndicator color={theme.textTertiary} size="small" />
           ) : isPlaying ? (
-            <Ionicons name="pause" color={theme.card} size={28} />
+            <Ionicons name="pause" color={theme.textSecondary} size={28} />
           ) : (
-            <Ionicons name="play" color={theme.card} size={28} />
+            <Ionicons name="play" color={theme.textSecondary} size={28} />
           )}
         </TouchableOpacity>
 
@@ -169,7 +167,7 @@ export function AudioPlayerControls({
   );
 }
 
-const styles = StyleSheet.create({
+const viewStyles = StyleSheet.create({
   container: {
     padding: Spacing.md,
     borderRadius: 12,
@@ -181,27 +179,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     gap: Spacing.sm,
   },
-  errorText: {
-    fontSize: Typography.fontSizes.md,
-    fontFamily: "Inter-Medium",
-  },
-  title: {
-    fontSize: Typography.fontSizes.lg,
-    fontWeight: Typography.fontWeights.bold,
-    textAlign: "center",
-    marginBottom: Spacing.md,
-  },
   timeContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     marginBottom: Spacing.xs,
-  },
-  timeText: {
-    fontSize: Typography.fontSizes.sm,
-  },
-  slider: {
-    width: "100%",
-    height: 40,
   },
   controlsContainer: {
     flexDirection: "row",
@@ -209,6 +190,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: Spacing.md,
   },
+});
+
+const styles = StyleSheet.create({
+  slider: {
+    width: "100%",
+    height: 40,
+  },
+
   playButton: {
     width: 64,
     height: 64,
@@ -223,6 +212,23 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     justifyContent: "center",
     alignItems: "center",
+  },
+});
+
+const textStyles = StyleSheet.create({
+  errorText: {
+    fontSize: Typography.fontSizes.md,
+    fontFamily: fontFamilies.medium,
+  },
+  title: {
+    fontSize: Typography.fontSizes.lg,
+    // fontWeight: Typography.fontWeights.bold,
+    fontFamily: fontFamilies.bold,
+    textAlign: "center",
+    marginBottom: Spacing.md,
+  },
+  timeText: {
+    fontSize: Typography.fontSizes.sm,
   },
 });
 

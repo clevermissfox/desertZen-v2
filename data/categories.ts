@@ -1,20 +1,20 @@
 import { Category } from "../types/Meditation";
 
 export const categories: Category[] = [
-  {
-    id: "morning",
-    name: "Morning Meditation",
-    description: "Start your day with clarity and intention.",
-    iconName: "sun",
-    availableLengths: ["5m", "10m", "15m"],
-  },
-  {
-    id: "anxiety-stress",
-    name: "Anxiety & Stress",
-    description: "Find calm and peace in moments of stress.",
-    iconName: "wind",
-    availableLengths: ["5m", "15m", "30m", "45m", "60m"],
-  },
+  // {
+  //   id: "morning",
+  //   name: "Morning Meditation",
+  //   description: "Start your day with clarity and intention.",
+  //   iconName: "sun",
+  //   availableLengths: ["5m", "10m", "15m"],
+  // },
+  // {
+  //   id: "anxiety-stress",
+  //   name: "Anxiety & Stress",
+  //   description: "Find calm and peace in moments of stress.",
+  //   iconName: "wind",
+  //   availableLengths: ["5m", "15m", "30m", "45m", "60m"],
+  // },
   {
     id: "sleep",
     name: "Sleep",
@@ -26,7 +26,7 @@ export const categories: Category[] = [
     id: "body-scan",
     name: "Body Scan",
     description: "Develop awareness of sensations throughout your body.",
-    iconName: "activity",
+    iconName: "pulse",
     availableLengths: ["15m", "30m"],
   },
   {
@@ -40,7 +40,7 @@ export const categories: Category[] = [
     id: "breathing",
     name: "Breathing",
     description: "Focus on your breath.",
-    iconName: "wind",
+    iconName: "triangle",
     availableLengths: ["15m", "30m", "45m"],
   },
   {

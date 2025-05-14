@@ -5,6 +5,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "../hooks/useTheme";
 import Spacing from "../constants/Spacing";
 import Typography from "../constants/Typography";
+import { fontFamilies } from "@/constants/Fonts";
 
 interface SearchBarProps {
   value: string;
@@ -28,7 +29,7 @@ export default function SearchBar({
       style={[
         styles.container,
         {
-          backgroundColor: isDark ? theme.secondaryLight : "#F1F5F9",
+          backgroundColor: isDark ? theme.secondary : theme.primaryLight,
           borderColor: theme.border,
         },
       ]}
@@ -72,6 +73,7 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     fontSize: Typography.fontSizes.md,
+    fontFamily: fontFamilies.regular,
     height: "100%",
   },
   clearButton: {

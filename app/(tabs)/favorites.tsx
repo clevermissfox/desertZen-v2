@@ -8,6 +8,7 @@ import Spacing from "../../constants/Spacing";
 import Typography from "../../constants/Typography";
 import { Meditation } from "@/types/Meditation";
 import { Ionicons } from "@expo/vector-icons";
+import { fontFamilies } from "@/constants/Fonts";
 // import { Heart } from 'lucide-react-native';
 
 export default function FavoritesScreen() {
@@ -96,19 +97,19 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   loadingText: {
-    fontFamily: "Inter-Regular",
+    fontFamily: fontFamilies.regular,
     fontSize: Typography.fontSizes.md,
   },
   headerContainer: {
     padding: Spacing.md,
   },
   headerTitle: {
-    fontFamily: "Inter-Bold",
+    fontFamily: fontFamilies.bold,
     fontSize: Typography.fontSizes.xxl,
     marginBottom: Spacing.xs,
   },
   headerSubtitle: {
-    fontFamily: "Inter-Regular",
+    fontFamily: fontFamilies.regular,
     fontSize: Typography.fontSizes.md,
   },
   listContent: {
@@ -128,13 +129,13 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.md,
   },
   emptyTitle: {
-    fontFamily: "Inter-Bold",
+    fontFamily: fontFamilies.bold,
     fontSize: Typography.fontSizes.xl,
     marginBottom: Spacing.md,
     textAlign: "center",
   },
   emptyText: {
-    fontFamily: "Inter-Regular",
+    fontFamily: fontFamilies.regular,
     fontSize: Typography.fontSizes.md,
     textAlign: "center",
     lineHeight: Typography.lineHeights.body * Typography.fontSizes.md,

@@ -14,6 +14,7 @@ import {
 import { AudioPlayerControls } from "../../components/AudioPlayerControls";
 import Spacing from "../../constants/Spacing";
 import Typography from "../../constants/Typography";
+import { fontFamilies } from "@/constants/Fonts";
 import { getMeditationById } from "../../data/meditations";
 import { useFavoriteMeditations } from "../../hooks/useFavoriteMeditations";
 import { useTheme } from "../../hooks/useTheme";
@@ -59,7 +60,7 @@ export default function MeditationScreen() {
             resizeMode="cover"
           />
           <LinearGradient
-            colors={["rgba(0,0,0,0.7)", "transparent", "rgba(0,0,0,0.7)"]}
+            colors={["rgba(50,46,38,0.7)", "transparent", "rgba(50,46,38,0.7)"]}
             style={styles.gradient}
           />
           <TouchableOpacity
@@ -86,7 +87,9 @@ export default function MeditationScreen() {
                       { backgroundColor: theme.secondary },
                     ]}
                   >
-                    <Text style={[styles.categoryText, { color: "#fff" }]}>
+                    <Text
+                      style={[styles.categoryText, { color: theme.neutral100 }]}
+                    >
                       {meditation.category.replace(/-/g, " ")}
                     </Text>
                   </View>
@@ -187,7 +190,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: "rgba(0,0,0,0.3)",
+    backgroundColor: "rgba(50,46,38,0.3)",
     justifyContent: "center",
     alignItems: "center",
   },
@@ -210,7 +213,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: Typography.fontSizes.xxl,
-    fontFamily: "Inter-Bold",
+    fontFamily: fontFamilies.bold,
     marginBottom: Spacing.sm,
   },
   metaRow: {
@@ -225,7 +228,7 @@ const styles = StyleSheet.create({
   },
   categoryText: {
     fontSize: Typography.fontSizes.sm,
-    fontFamily: "Inter-Medium",
+    fontFamily: fontFamilies.medium,
     textTransform: "capitalize",
   },
   lengthContainer: {
@@ -235,16 +238,16 @@ const styles = StyleSheet.create({
   },
   lengthText: {
     fontSize: Typography.fontSizes.sm,
-    fontFamily: "Inter-Regular",
+    fontFamily: fontFamilies.regular,
   },
   favoriteButton: {
     padding: Spacing.sm,
   },
   description: {
     fontSize: Typography.fontSizes.md,
-    fontFamily: "Inter-Regular",
+    fontFamily: fontFamilies.regular,
     lineHeight: Typography.lineHeights.body * Typography.fontSizes.md,
-    marginBottom: Spacing.lg,
+    // marginBottom: Spacing.lg,
   },
   infoSection: {
     paddingHorizontal: Spacing.md,
@@ -253,12 +256,12 @@ const styles = StyleSheet.create({
   },
   infoTitle: {
     fontSize: Typography.fontSizes.lg,
-    fontFamily: "Inter-Bold",
+    fontFamily: fontFamilies.bold,
     marginBottom: Spacing.sm,
   },
   infoText: {
     fontSize: Typography.fontSizes.md,
-    fontFamily: "Inter-Regular",
+    fontFamily: fontFamilies.regular,
     lineHeight: Typography.lineHeights.body * Typography.fontSizes.md,
     marginBottom: Spacing.md,
   },

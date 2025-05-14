@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, ReactNode } from "react";
 import {
   StyleSheet,
   Text,
@@ -13,6 +13,7 @@ import { useTheme } from "../../hooks/useTheme";
 import { ThemeToggle } from "../../components/ThemeToggle";
 import Spacing from "../../constants/Spacing";
 import Typography from "../../constants/Typography";
+import { fontFamilies } from "@/constants/Fonts";
 import { Ionicons } from "@expo/vector-icons";
 // import {
 //   User,
@@ -33,6 +34,15 @@ export default function ProfileScreen() {
   // Placeholder for user login state
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  type SettingItemProps = {
+    icon: ReactNode;
+    title: string;
+    onPress: () => void;
+    showToggle?: boolean;
+    toggleValue?: boolean;
+    onToggleChange?: (value: boolean) => void;
+  };
+
   const SettingItem = ({
     icon,
     title,
@@ -40,7 +50,7 @@ export default function ProfileScreen() {
     showToggle = false,
     toggleValue = false,
     onToggleChange = () => {},
-  }) => (
+  }: SettingItemProps) => (
     <TouchableOpacity
       style={[styles.settingItem, { borderBottomColor: theme.border }]}
       onPress={onPress}
@@ -53,14 +63,22 @@ export default function ProfileScreen() {
             value={toggleValue}
             onValueChange={onToggleChange}
             trackColor={{
-              false: isDark ? theme.border : "#D1D5DB",
+              false: isDark ? theme.border : theme.primary,
               true: theme.accent,
             }}
             thumbColor={Platform.select({
-              web: toggleValue ? "#ffffff" : isDark ? "#ffffff" : "#F3F4F6",
-              default: isDark ? "#ffffff" : toggleValue ? "#ffffff" : "#F3F4F6",
+              web: toggleValue
+                ? theme.neutral0
+                : isDark
+                ? theme.neutral0
+                : theme.primary,
+              default: isDark
+                ? theme.neutral0
+                : toggleValue
+                ? theme.neutral0
+                : theme.primary,
             })}
-            ios_backgroundColor={isDark ? theme.border : "#D1D5DB"}
+            ios_backgroundColor={isDark ? theme.border : theme.primaryLight}
             style={Platform.select({
               web: {
                 opacity: 1,
@@ -95,7 +113,7 @@ export default function ProfileScreen() {
         Create an account to save your favorites and track your progress.
       </Text>
       <TouchableOpacity
-        style={[styles.loginButton, { backgroundColor: theme.primary }]}
+        style={[styles.loginButton, { backgroundColor: theme.accent }]}
         onPress={() => setIsLoggedIn(true)} // Just for demo
       >
         <Text style={styles.loginButtonText}>Sign In / Sign Up</Text>
@@ -136,7 +154,7 @@ export default function ProfileScreen() {
     >
       <View style={styles.header}>
         <Text style={[styles.title, { color: theme.text }]}>Profile</Text>
-        <ThemeToggle />
+        {/* <ThemeToggle /> */}
       </View>
 
       {isLoggedIn ? <UserProfileView /> : <GuestView />}
@@ -154,7 +172,11 @@ export default function ProfileScreen() {
         >
           <SettingItem
             icon={
-              <Ionicons name="notifications" size={22} color={theme.primary} />
+              <Ionicons
+                name="notifications"
+                size={22}
+                color={theme.accentLight}
+              />
             }
             title="Notifications"
             showToggle={true}
@@ -164,7 +186,7 @@ export default function ProfileScreen() {
           />
 
           <SettingItem
-            icon={<Ionicons name="moon" size={22} color={theme.primary} />}
+            icon={<Ionicons name="moon" size={22} color={theme.accentLight} />}
             title="Dark Mode"
             showToggle={true}
             toggleValue={isDark}
@@ -173,7 +195,9 @@ export default function ProfileScreen() {
           />
 
           <SettingItem
-            icon={<Ionicons name="download" size={22} color={theme.primary} />}
+            icon={
+              <Ionicons name="download" size={22} color={theme.accentLight} />
+            }
             title="Auto Download"
             showToggle={true}
             toggleValue={autoDownloadEnabled}
@@ -194,14 +218,18 @@ export default function ProfileScreen() {
         >
           <SettingItem
             icon={
-              <Ionicons name="volume-high" size={22} color={theme.primary} />
+              <Ionicons
+                name="volume-high"
+                size={22}
+                color={theme.accentLight}
+              />
             }
             title="Audio Quality"
             onPress={() => {}}
           />
 
           <SettingItem
-            icon={<Ionicons name="time" size={22} color={theme.primary} />}
+            icon={<Ionicons name="time" size={22} color={theme.accentLight} />}
             title="Sleep Timer"
             onPress={() => {}}
           />
@@ -216,7 +244,9 @@ export default function ProfileScreen() {
           ]}
         >
           <SettingItem
-            icon={<Ionicons name="settings" size={22} color={theme.primary} />}
+            icon={
+              <Ionicons name="settings" size={22} color={theme.accentLight} />
+            }
             title="About Desert Zen"
             onPress={() => {}}
           />
@@ -257,7 +287,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: Typography.fontSizes.xxl,
-    fontFamily: "Inter-Bold",
+    fontFamily: fontFamilies.bold,
   },
   guestContainer: {
     alignItems: "center",
@@ -273,12 +303,12 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.md,
   },
   guestTitle: {
-    fontFamily: "Inter-Bold",
+    fontFamily: fontFamilies.bold,
     fontSize: Typography.fontSizes.xl,
     marginBottom: Spacing.sm,
   },
   guestText: {
-    fontFamily: "Inter-Regular",
+    fontFamily: fontFamilies.regular,
     fontSize: Typography.fontSizes.md,
     textAlign: "center",
     marginBottom: Spacing.lg,
@@ -291,7 +321,7 @@ const styles = StyleSheet.create({
   },
   loginButtonText: {
     color: "white",
-    fontFamily: "Inter-Medium",
+    fontFamily: fontFamilies.medium,
     fontSize: Typography.fontSizes.md,
   },
   userProfileContainer: {
@@ -310,12 +340,12 @@ const styles = StyleSheet.create({
     marginLeft: Spacing.lg,
   },
   userName: {
-    fontFamily: "Inter-Bold",
+    fontFamily: fontFamilies.bold,
     fontSize: Typography.fontSizes.lg,
     marginBottom: Spacing.xs,
   },
   userEmail: {
-    fontFamily: "Inter-Regular",
+    fontFamily: fontFamilies.regular,
     fontSize: Typography.fontSizes.md,
   },
   editButton: {
@@ -325,14 +355,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.md,
   },
   editButtonText: {
-    fontFamily: "Inter-Medium",
+    fontFamily: fontFamilies.medium,
     fontSize: Typography.fontSizes.sm,
   },
   settingsContainer: {
     paddingHorizontal: Spacing.md,
   },
   sectionTitle: {
-    fontFamily: "Inter-Bold",
+    fontFamily: fontFamilies.bold,
     fontSize: Typography.fontSizes.md,
     marginBottom: Spacing.sm,
   },
@@ -358,7 +388,7 @@ const styles = StyleSheet.create({
   },
   settingText: {
     flex: 1,
-    fontFamily: "Inter-Regular",
+    fontFamily: fontFamilies.regular,
     fontSize: Typography.fontSizes.md,
   },
   settingRightContainer: {
@@ -369,12 +399,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   logoutText: {
-    fontFamily: "Inter-Medium",
+    fontFamily: fontFamilies.medium,
     fontSize: Typography.fontSizes.md,
   },
   versionText: {
     textAlign: "center",
-    fontFamily: "Inter-Regular",
+    fontFamily: fontFamilies.regular,
     fontSize: Typography.fontSizes.sm,
     marginTop: Spacing.lg,
   },
