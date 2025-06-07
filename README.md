@@ -16,6 +16,9 @@ Lets check This is an [Expo](https://expo.dev) project created with [`create-exp
    npx expo start
    ```
 
+   Use npx expo as expo-cli is deprecated.
+   You access it using `npx expo <command>`, which runs the version that matches your project’s Expo SDK
+
 In the output, you'll find options to open the app in a
 
 - [development build](https://docs.expo.dev/develop/development-builds/introduction/)

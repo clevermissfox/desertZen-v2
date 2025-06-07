@@ -1,4 +1,4 @@
-import React, { useState, ReactNode } from "react";
+import { useState, ReactNode } from "react";
 import {
   StyleSheet,
   Text,
@@ -152,21 +152,21 @@ export default function ProfileScreen() {
       contentContainerStyle={styles.contentContainer}
       showsVerticalScrollIndicator={false}
     >
-      <View style={styles.header}>
-        <Text style={[styles.title, { color: theme.text }]}>Profile</Text>
+      <View style={viewStyles.header}>
+        <Text style={[textStyles.title, { color: theme.text }]}>Profile</Text>
         {/* <ThemeToggle /> */}
       </View>
 
       {isLoggedIn ? <UserProfileView /> : <GuestView />}
 
-      <View style={styles.settingsContainer}>
-        <Text style={[styles.sectionTitle, { color: theme.text }]}>
+      <View style={viewStyles.settingsContainer}>
+        <Text style={[textStyles.sectionTitle, { color: theme.text }]}>
           App Settings
         </Text>
 
         <View
           style={[
-            styles.settingsGroup,
+            viewStyles.settingsGroup,
             { backgroundColor: theme.card, borderColor: theme.border },
           ]}
         >
@@ -206,13 +206,13 @@ export default function ProfileScreen() {
           />
         </View>
 
-        <Text style={[styles.sectionTitle, { color: theme.text }]}>
+        <Text style={[textStyles.sectionTitle, { color: theme.text }]}>
           Playback
         </Text>
 
         <View
           style={[
-            styles.settingsGroup,
+            viewStyles.settingsGroup,
             { backgroundColor: theme.card, borderColor: theme.border },
           ]}
         >
@@ -235,11 +235,13 @@ export default function ProfileScreen() {
           />
         </View>
 
-        <Text style={[styles.sectionTitle, { color: theme.text }]}>Other</Text>
+        <Text style={[textStyles.sectionTitle, { color: theme.text }]}>
+          Other
+        </Text>
 
         <View
           style={[
-            styles.settingsGroup,
+            viewStyles.settingsGroup,
             { backgroundColor: theme.card, borderColor: theme.border },
           ]}
         >
@@ -256,7 +258,7 @@ export default function ProfileScreen() {
               style={styles.logoutButton}
               onPress={() => setIsLoggedIn(false)} // Just for demo
             >
-              <Text style={[styles.logoutText, { color: theme.error }]}>
+              <Text style={[textStyles.logoutText, { color: theme.error }]}>
                 Sign Out
               </Text>
             </TouchableOpacity>
@@ -264,12 +266,53 @@ export default function ProfileScreen() {
         </View>
       </View>
 
-      <Text style={[styles.versionText, { color: theme.textTertiary }]}>
+      <Text style={[textStyles.versionText, { color: theme.textTertiary }]}>
         Version 1.0.0
       </Text>
     </ScrollView>
   );
 }
+
+const textStyles = StyleSheet.create({
+  title: {
+    fontSize: Typography.fontSizes.xxl,
+    fontFamily: fontFamilies.bold,
+  },
+  sectionTitle: {
+    fontFamily: fontFamilies.bold,
+    fontSize: Typography.fontSizes.md,
+    marginBottom: Spacing.sm,
+  },
+  logoutText: {
+    fontFamily: fontFamilies.medium,
+    fontSize: Typography.fontSizes.md,
+  },
+  versionText: {
+    textAlign: "center",
+    fontFamily: fontFamilies.regular,
+    fontSize: Typography.fontSizes.sm,
+    marginTop: Spacing.lg,
+  },
+});
+
+const viewStyles = StyleSheet.create({
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: Spacing.md,
+    paddingVertical: Spacing.lg,
+  },
+  settingsContainer: {
+    paddingHorizontal: Spacing.md,
+  },
+  settingsGroup: {
+    borderRadius: 12,
+    overflow: "hidden",
+    marginBottom: Spacing.lg,
+    borderWidth: 1,
+  },
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -278,17 +321,7 @@ const styles = StyleSheet.create({
   contentContainer: {
     paddingBottom: Spacing.xxl,
   },
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingHorizontal: Spacing.md,
-    paddingVertical: Spacing.lg,
-  },
-  title: {
-    fontSize: Typography.fontSizes.xxl,
-    fontFamily: fontFamilies.bold,
-  },
+
   guestContainer: {
     alignItems: "center",
     padding: Spacing.lg,
@@ -358,20 +391,7 @@ const styles = StyleSheet.create({
     fontFamily: fontFamilies.medium,
     fontSize: Typography.fontSizes.sm,
   },
-  settingsContainer: {
-    paddingHorizontal: Spacing.md,
-  },
-  sectionTitle: {
-    fontFamily: fontFamilies.bold,
-    fontSize: Typography.fontSizes.md,
-    marginBottom: Spacing.sm,
-  },
-  settingsGroup: {
-    borderRadius: 12,
-    overflow: "hidden",
-    marginBottom: Spacing.lg,
-    borderWidth: 1,
-  },
+
   settingItem: {
     flexDirection: "row",
     alignItems: "center",
@@ -397,15 +417,5 @@ const styles = StyleSheet.create({
   logoutButton: {
     padding: Spacing.md,
     alignItems: "center",
-  },
-  logoutText: {
-    fontFamily: fontFamilies.medium,
-    fontSize: Typography.fontSizes.md,
-  },
-  versionText: {
-    textAlign: "center",
-    fontFamily: fontFamilies.regular,
-    fontSize: Typography.fontSizes.sm,
-    marginTop: Spacing.lg,
   },
 });
