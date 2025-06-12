@@ -64,7 +64,7 @@ export default function FavoritesScreen() {
 
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
-      <View style={styles.headerContainer}>
+      {/* <View style={styles.headerContainer}>
         <Text style={[styles.headerTitle, { color: theme.text }]}>
           Your Favorites
         </Text>
@@ -72,7 +72,7 @@ export default function FavoritesScreen() {
           {favoriteMeditations.length}{" "}
           {favoriteMeditations.length === 1 ? "meditation" : "meditations"}
         </Text>
-      </View>
+      </View> */}
 
       <FlatList
         data={favoriteMeditations}

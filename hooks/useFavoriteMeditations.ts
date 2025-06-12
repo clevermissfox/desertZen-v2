@@ -1,6 +1,6 @@
-import { create } from 'zustand';
-import { persist, createJSONStorage } from 'zustand/middleware';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { create } from "zustand";
+import { persist, createJSONStorage } from "zustand/middleware";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface FavoritesState {
   favorites: string[];
@@ -21,14 +21,14 @@ const useFavoriteMeditations = create<FavoritesState>()(
       },
       removeFavorite: (id: string) => {
         const currentFavorites = get().favorites;
-        set({ favorites: currentFavorites.filter(favId => favId !== id) });
+        set({ favorites: currentFavorites.filter((favId) => favId !== id) });
       },
       isFavorite: (id: string) => {
         return get().favorites.includes(id);
       },
     }),
     {
-      name: 'favorites-storage',
+      name: "favorites-storage",
       storage: createJSONStorage(() => AsyncStorage),
     }
   )

@@ -7,6 +7,7 @@ import { SplashScreen } from "expo-router";
 import { useFrameworkReady } from "@/hooks/useFrameworkReady";
 import { useFonts } from "expo-font";
 import { fontAssets } from "@/constants/Fonts";
+import { fontFamilies } from "@/constants/Fonts";
 // import {
 //   Inter_400Regular,
 //   Inter_500Medium,
@@ -48,6 +49,9 @@ export default function TabLayout() {
         },
         headerStyle: {
           backgroundColor: theme.background,
+        },
+        headerTitleStyle: {
+          fontFamily: fontFamilies.medium,
         },
         headerTintColor: theme.text,
         headerShadowVisible: false,
