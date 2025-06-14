@@ -8,9 +8,9 @@ export const meditations: Meditation[] = [
     category: "breathing",
     length: "5m",
     audioUrl:
-      "https://docs.google.com/uc?export=view&id=1dMtRXUd4l9V1KgmZ765UhOvd1aHZ2MJU",
+      "https://desert-zenmeditations.com/wp-content/uploads/2025/05/5-Minute-Breathing-Meditation-22Finding-Calm22.m4a",
     imageUrl:
-      "https://images.pexels.com/photos/414136/pexels-photo-414136.jpeg",
+      "https://desert-zenmeditations.com/wp-content/uploads/101-Finding-Calm-5m-breathing-1x1-1-1024x1024.webp",
     featured: false,
     createdAt: "2024-05-01",
   },
@@ -21,9 +21,9 @@ export const meditations: Meditation[] = [
     category: "sleep",
     length: "15m",
     audioUrl:
-      "https://docs.google.com/uc?export=view&id=1bfsaMNn_wsc88675pTswJF9O-QDWxOzv",
+      "https://desert-zenmeditations.com/wp-content/uploads/2025/05/15-Minute-Sleep-Meditation-Drifting-into-rest.mp3",
     imageUrl:
-      "https://images.pexels.com/photos/1579385/pexels-photo-1579385.jpeg",
+      "https://desert-zenmeditations.com/wp-content/uploads/102-Drifting-Into-Rest-15m-sleep-1x1-1-1024x1024.webp",
     featured: false,
     createdAt: "2024-05-02",
   },
@@ -34,9 +34,9 @@ export const meditations: Meditation[] = [
     category: "body-scan",
     length: "30m",
     audioUrl:
-      "https://docs.google.com/uc?export=view&id=1u_TTGRQFv4S63s8RwB7W8mE-F9l680qu",
+      "https://desert-zenmeditations.com/wp-content/uploads/2025/05/30-Minute-Body-Scan-Meditation-Coming-Home-to-Your-Body.m4a",
     imageUrl:
-      "https://images.pexels.com/photos/718324/pexels-photo-718324.jpeg",
+      "https://desert-zenmeditations.com/wp-content/uploads/103-Coming-Home-to-Your-Body-30m-body-scan-1x1-1-1024x1024.webp",
     featured: false,
     createdAt: "2024-05-03",
   },
@@ -47,9 +47,9 @@ export const meditations: Meditation[] = [
     category: "anxiety-relief",
     length: "15m",
     audioUrl:
-      "https://docs.google.com/uc?export=view&id=1Ju9ITX1tcDicmeEecaTQwJK4GgISHgk0",
+      "https://desert-zenmeditations.com/wp-content/uploads/2025/05/Anxiety-Stress-Relief-10-min.m4a",
     imageUrl:
-      "https://images.pexels.com/photos/2882603/pexels-photo-2882603.jpeg",
+      "https://desert-zenmeditations.com/wp-content/uploads/104-Inner-Awareness-10m-anxiety-relief-1x1-1-1024x1024.webp",
     featured: false,
     createdAt: "2024-05-04",
   },
@@ -60,22 +60,22 @@ export const meditations: Meditation[] = [
     category: "body-scan",
     length: "30m",
     audioUrl:
-      "https://docs.google.com/uc?export=view&id=1cfLSFNqKwPQcPDU_mqNMuphLJ1hdAEC2",
+      "https://desert-zenmeditations.com/wp-content/uploads/Body-Scan-Meditation-for-Deep-Relaxation-15-min.m4a",
     imageUrl:
-      "https://images.pexels.com/photos/7459424/pexels-photo-7459424.jpeg",
+      "https://desert-zenmeditations.com/wp-content/uploads/105-Head-to-Toe-15m-body-scan-1x1-1-1024x1024.webp",
     featured: true,
     createdAt: "2024-05-05",
   },
   {
     id: "6",
-    title: "Meditation for Grief and Loss",
+    title: "Breathing Through the Loss",
     description: "A meditation for those who have lost.",
     category: "anxiety-relief",
     length: "5m",
     audioUrl:
-      "https://docs.google.com/uc?export=view&id=1TMRX80B2YqGa0nxxabaG5ol52bu-7CCs",
+      "https://desert-zenmeditations.com/wp-content/uploads/Guided-Imagery-Meditation-for-Grief-and-Loss-10-min.m4a",
     imageUrl:
-      "https://images.pexels.com/photos/27366119/pexels-photo-27366119/free-photo-of-view-of-a-field-with-cacti-and-the-mountains-in-the-background.jpeg",
+      "https://desert-zenmeditations.com/wp-content/uploads/106-Anchored-in-Sorrow-20m-grief-and-loss-1x1-1-1024x1024.jpg",
     featured: false,
     createdAt: "2024-05-06",
   },
@@ -86,9 +86,9 @@ export const meditations: Meditation[] = [
     category: "women",
     length: "10m",
     audioUrl:
-      "https://docs.google.com/uc?export=view&id=1Jt-sR32bgEU1DtVjJx8a24_LVPbm3ljY",
+      "https://desert-zenmeditations.com/wp-content/uploads/Guided-Imagery-Meditation-A-Walk-on-the-Beach-10-min.m4a",
     imageUrl:
-      "https://images.pexels.com/photos/2265090/pexels-photo-2265090.jpeg",
+      "https://desert-zenmeditations.com/wp-content/uploads/107-A-Walk-on-the-Beach-10m-women-1x1-1-1024x1024.webp",
     featured: false,
     createdAt: "2024-05-07",
   },
@@ -99,9 +99,9 @@ export const meditations: Meditation[] = [
     category: "women",
     length: "10m",
     audioUrl:
-      "https://docs.google.com/uc?export=view&id=1OAEHLoZrpTJKR7oHz2CqEkDCAXnPIzUg",
+      "https://desert-zenmeditations.com/wp-content/uploads/Guided-Meditation-for-Women-–-Embracing-Inner-Strength-and-Peace-10-min-.m4a",
     imageUrl:
-      "https://images.pexels.com/photos/2749600/pexels-photo-2749600.jpeg",
+      "https://desert-zenmeditations.com/wp-content/uploads/108-Embracing-Inner-Strength-10m-women-1x1-1-1024x1024.webp",
     featured: true,
     createdAt: "2024-05-08",
   },
@@ -112,9 +112,9 @@ export const meditations: Meditation[] = [
     category: "body-scan",
     length: "30m",
     audioUrl:
-      "https://docs.google.com/uc?export=view&id=1HzZC-MqsAr8NX_7Z5LLEdqjMBFHlMe_7",
+      "https://desert-zenmeditations.com/wp-content/uploads/Meditation-for-Busy-Parents-You-Are-Doing-Enough-10min.m4a",
     imageUrl:
-      "https://images.pexels.com/photos/764998/pexels-photo-764998.jpeg",
+      "https://desert-zenmeditations.com/wp-content/uploads/109-You-Are-Doing-Enough-10m-parents-1x1-1-1024x1024.webp",
     featured: false,
     createdAt: "2024-05-09",
   },
@@ -125,9 +125,9 @@ export const meditations: Meditation[] = [
     category: "guided-imagery",
     length: "45m",
     audioUrl:
-      "https://docs.google.com/uc?export=view&id=1dSz08Kamd3D74c5DFCFcjyPUaphV-22p",
+      "https://desert-zenmeditations.com/wp-content/uploads/Meditation-for-Women-Releasing-Shame-and-Remembering-Your-Worth.m4a",
     imageUrl:
-      "https://images.pexels.com/photos/8979735/pexels-photo-8979735.jpeg",
+      "https://desert-zenmeditations.com/wp-content/uploads/110-Releasing-Shame-and-Remembering-Your-Worth-10m-women-1x1-1-1024x1024.jpg",
     featured: false,
     createdAt: "2024-05-10",
   },
