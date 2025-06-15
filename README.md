@@ -45,9 +45,36 @@ To learn more about developing your project with Expo, look at the following res
 - [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
 - [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
 
-## Join the community
+## Creating Builds
 
-Join our community of developers creating universal apps.
+eas build --profile development --platform android or eas build --profile preview --platform ios for a Development build which you can share the link and they can download and install the app ONLY when dev server is running; for custom dev client, install expo-dev-client then run the build command
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- eas build --profile development --platform android
+- https://expo.dev/accounts/clevermissfox/projects/react-native-intro-v1/builds/ecdb30e8-d41e-4677-8c2c-ccd04589eb08
+- you do still need the dev server running to load the JavaScript bundle.
+
+when you want to build and not require the dev server at all:
+
+- `eas build --profile preview --platform android`
+- https://expo.dev/accounts/clevermissfox/projects/react-native-intro-v1/builds/a11a308a-61c5-4637-9bb3-f2ea5ac1d982
+
+### Production Build
+
+The following commands
+
+- `eas build --profile production --platform android`
+- `eas build --profile production --platform ios`
+
+### Production Preview - Custom Build
+
+to get a production ready build (that bundles the javascript) but also spits out an apk for android instead of an app store file
+
+- `eas build --profile prod-preview --platform android`
+
+### Build and Run Locally
+
+Test Release Build Locally: Run `npx expo run:android --variant release` to simulate the EAS Build process on your machine. If it fails locally, it will also fail on EAS Build.
+
+### Local EAS Build
+
+Use `eas build -p android --profile preview --local` to build locally and avoid waiting for remote builds. This helps you catch issues faster.
