@@ -54,7 +54,8 @@
     "zustand": "^5.0.4",
     "firebase": "^9.0.0",
     "expo-image-picker": "~16.1.4",
-    "expo-dev-client": "~5.2.0"
+    "expo-dev-client": "~5.2.0",
+    "lucide-react-native": "^0.468.0"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
