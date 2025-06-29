@@ -1,173 +1,128 @@
-import React from "react";
-import { StyleSheet, Text, View, FlatList } from "react-native";
-import { useTheme } from "../../hooks/useTheme";
-import { MeditationCard } from "../../components/MeditationCard";
-import { useFavoriteMeditations } from "../../hooks/useFavoriteMeditations";
-import { meditations } from "../../data/meditations";
-import Spacing from "../../constants/Spacing";
-import Typography from "../../constants/Typography";
-import { Meditation } from "@/types/Meditation";
-import { Ionicons } from "@expo/vector-icons";
-import { fontFamilies } from "@/constants/Fonts";
-import { useAuth } from "@/context/AuthContext";
+import React from 'react';
+import { View, Text, StyleSheet, ScrollView, RefreshControl } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useFavoriteMeditations } from '@/hooks/useFavoriteMeditations';
+import { useAuth } from '@/context/AuthContext';
+import { MeditationCard } from '@/components/MeditationCard';
+import { OfflineIndicator } from '@/components/OfflineIndicator';
+import { meditations } from '@/data/meditations';
+import { Colors } from '@/constants/Colors';
+import { Typography } from '@/constants/Typography';
+import { Spacing } from '@/constants/Spacing';
 
 export default function FavoritesScreen() {
-  const { theme } = useTheme();
   const { user } = useAuth();
-  const { favorites, isLoading, error, isOffline } = useFavoriteMeditations();
+  const { favorites, loading, error, isOffline, isFavorite } = useFavoriteMeditations();
+  const [refreshing, setRefreshing] = React.useState(false);
 
-  const favoriteMeditations = meditations.filter((meditation) =>
-    favorites.includes(meditation.id)
+  const favoriteMeditations = meditations.filter(meditation => 
+    isFavorite(meditation.id)
   );
 
-  const renderItem = ({ item, index }: { item: Meditation; index: number }) => (
-    <View
-      style={[
-        styles.meditationCardContainer,
-        index % 2 === 0
-          ? { paddingRight: Spacing.xs }
-          : { paddingLeft: Spacing.xs },
-      ]}
-    >
-      <MeditationCard meditation={item} />
-    </View>
-  );
+  const onRefresh = React.useCallback(async () => {
+    setRefreshing(true);
+    // Force a refresh by reloading the component
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 1000);
+  }, []);
 
-  const EmptyFavorites = () => (
-    <View style={styles.emptyContainer}>
-      <Ionicons
-        name="heart"
-        color={theme.accent}
-        size={48}
-        style={styles.emptyIcon}
-      />
-      <Text style={[styles.emptyTitle, { color: theme.text }]}>
-        No Favorites Yet
-      </Text>
-      <Text style={[styles.emptyText, { color: theme.textSecondary }]}>
-        Add meditations to your favorites by tapping the heart icon on any
-        meditation.
-        {!user && " Sign in to sync your favorites across devices."}
-      </Text>
-    </View>
-  );
-
-  const ErrorState = () => (
-    <View style={styles.emptyContainer}>
-      <Ionicons
-        name="alert-circle"
-        color={theme.error}
-        size={48}
-        style={styles.emptyIcon}
-      />
-      <Text style={[styles.emptyTitle, { color: theme.text }]}>
-        Error Loading Favorites
-      </Text>
-      <Text style={[styles.emptyText, { color: theme.textSecondary }]}>
-        {error || "Something went wrong. Please try again."}
-      </Text>
-    </View>
-  );
-
-  const OfflineIndicator = () => (
-    <View style={[styles.offlineIndicator, { backgroundColor: theme.warning }]}>
-      <Ionicons name="cloud-offline" size={16} color={theme.neutral0} />
-      <Text style={[styles.offlineText, { color: theme.neutral0 }]}>
-        You're offline. Changes will sync when you're back online.
-      </Text>
-    </View>
-  );
-
-  if (error && !isOffline) {
+  if (!user) {
     return (
-      <View
-        style={[styles.container, { backgroundColor: theme.background }]}
-      >
-        <ErrorState />
-      </View>
-    );
-  }
-
-  if (isLoading) {
-    return (
-      <View
-        style={[styles.loadingContainer, { backgroundColor: theme.background }]}
-      >
-        <Text style={[styles.loadingText, { color: theme.textSecondary }]}>
-          Loading your favorites...
-        </Text>
-      </View>
+      <SafeAreaView style={styles.container}>
+        <View style={styles.emptyContainer}>
+          <Text style={styles.emptyTitle}>Sign In Required</Text>
+          <Text style={styles.emptyText}>
+            Please sign in to view your favorite meditations.
+          </Text>
+        </View>
+      </SafeAreaView>
     );
   }
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.background }]}>
-      {isOffline && <OfflineIndicator />}
-      
-      <FlatList
-        data={favoriteMeditations}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-        contentContainerStyle={styles.listContent}
-        numColumns={2}
-        ListEmptyComponent={EmptyFavorites}
-        showsVerticalScrollIndicator={false}
-      />
-    </View>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.title}>My Favorites</Text>
+      </View>
+
+      <OfflineIndicator isOffline={isOffline} message={error} />
+
+      <ScrollView 
+        style={styles.content}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
+        {loading ? (
+          <View style={styles.emptyContainer}>
+            <Text style={styles.emptyText}>Loading your favorites...</Text>
+          </View>
+        ) : favoriteMeditations.length === 0 ? (
+          <View style={styles.emptyContainer}>
+            <Text style={styles.emptyTitle}>No Favorites Yet</Text>
+            <Text style={styles.emptyText}>
+              Start exploring meditations and add them to your favorites to see them here.
+            </Text>
+          </View>
+        ) : (
+          <View style={styles.grid}>
+            {favoriteMeditations.map((meditation) => (
+              <MeditationCard
+                key={meditation.id}
+                meditation={meditation}
+                style={styles.card}
+              />
+            ))}
+          </View>
+        )}
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: Colors.background,
   },
-  loadingContainer: {
+  header: {
+    paddingHorizontal: Spacing.lg,
+    paddingVertical: Spacing.md,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.border,
+  },
+  title: {
+    ...Typography.h1,
+    color: Colors.text,
+  },
+  content: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
   },
-  loadingText: {
-    fontFamily: fontFamilies.regular,
-    fontSize: Typography.fontSizes.md,
-  },
-  listContent: {
+  grid: {
     padding: Spacing.md,
+    gap: Spacing.md,
   },
-  meditationCardContainer: {
-    width: "50%",
+  card: {
     marginBottom: Spacing.md,
   },
   emptyContainer: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: Spacing.xl,
-  },
-  emptyIcon: {
-    marginBottom: Spacing.md,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: Spacing.xl,
+    paddingVertical: Spacing.xxl,
   },
   emptyTitle: {
-    fontFamily: fontFamilies.bold,
-    fontSize: Typography.fontSizes.xl,
-    marginBottom: Spacing.md,
-    textAlign: "center",
+    ...Typography.h2,
+    color: Colors.text,
+    marginBottom: Spacing.sm,
+    textAlign: 'center',
   },
   emptyText: {
-    fontFamily: fontFamilies.regular,
-    fontSize: Typography.fontSizes.md,
-    textAlign: "center",
-    lineHeight: Typography.lineHeights.body * Typography.fontSizes.md,
-  },
-  offlineIndicator: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: Spacing.sm,
-    paddingHorizontal: Spacing.md,
-    gap: Spacing.xs,
-  },
-  offlineText: {
-    fontFamily: fontFamilies.medium,
-    fontSize: Typography.fontSizes.sm,
+    ...Typography.body,
+    color: Colors.textSecondary,
+    textAlign: 'center',
+    lineHeight: 24,
   },
 });
