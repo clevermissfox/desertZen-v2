@@ -19,7 +19,7 @@ interface LocalFavoritesState {
   clearFavorites: () => void;
 }
 
-// Local storage store (fallback for guests)
+// Local storage store (fallback for guests and offline)
 const useLocalFavoritesStore = create<LocalFavoritesState>()(
   persist(
     (set, get) => ({
@@ -52,6 +52,7 @@ interface FavoritesHookReturn {
   favorites: string[];
   isLoading: boolean;
   error: string | null;
+  isOffline: boolean;
   addFavorite: (id: string) => Promise<void>;
   removeFavorite: (id: string) => Promise<void>;
   isFavorite: (id: string) => boolean;
@@ -64,6 +65,7 @@ export function useFavoriteMeditations(): FavoritesHookReturn {
   const [firebaseFavorites, setFirebaseFavorites] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isOffline, setIsOffline] = useState(false);
   const [hasInitialized, setHasInitialized] = useState(false);
 
   // Initialize Firebase favorites when user logs in
@@ -71,6 +73,7 @@ export function useFavoriteMeditations(): FavoritesHookReturn {
     if (!user) {
       setFirebaseFavorites([]);
       setHasInitialized(false);
+      setIsOffline(false);
       return;
     }
 
@@ -80,15 +83,23 @@ export function useFavoriteMeditations(): FavoritesHookReturn {
       try {
         setIsLoading(true);
         setError(null);
+        setIsOffline(false);
 
         // Get local favorites for potential sync
         const localFavorites = localStore.favorites;
 
         // Sync local favorites to Firebase if user just logged in
         if (localFavorites.length > 0 && !hasInitialized) {
-          await syncLocalFavoritesToFirebase(user.uid, localFavorites);
-          // Clear local storage after sync
-          localStore.clearFavorites();
+          try {
+            await syncLocalFavoritesToFirebase(user.uid, localFavorites);
+            // Clear local storage after successful sync
+            localStore.clearFavorites();
+          } catch (syncError: any) {
+            console.log("Sync failed, keeping local favorites:", syncError.message);
+            if (syncError.message?.includes("offline")) {
+              setIsOffline(true);
+            }
+          }
         }
 
         // Subscribe to Firebase favorites
@@ -96,12 +107,19 @@ export function useFavoriteMeditations(): FavoritesHookReturn {
           setFirebaseFavorites(favorites);
           setIsLoading(false);
           setHasInitialized(true);
+          setIsOffline(false);
         });
 
-      } catch (err) {
+      } catch (err: any) {
         console.error("Error initializing Firebase favorites:", err);
-        setError("Failed to load favorites");
+        setError(err.message || "Failed to load favorites");
         setIsLoading(false);
+        
+        if (err.message?.includes("offline")) {
+          setIsOffline(true);
+          // Use local favorites when offline
+          setFirebaseFavorites(localStore.favorites);
+        }
       }
     };
 
@@ -119,15 +137,26 @@ export function useFavoriteMeditations(): FavoritesHookReturn {
       setError(null);
       
       if (user) {
-        // Add to Firebase
-        await addToFavorites(user.uid, id);
+        // Try Firebase first
+        try {
+          await addToFavorites(user.uid, id);
+        } catch (firebaseError: any) {
+          // If offline, add to local storage as backup
+          if (firebaseError.message?.includes("offline")) {
+            setIsOffline(true);
+            localStore.addFavorite(id);
+            setFirebaseFavorites(prev => [...prev, id]);
+          } else {
+            throw firebaseError;
+          }
+        }
       } else {
         // Add to local storage for guests
         localStore.addFavorite(id);
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error("Error adding favorite:", err);
-      setError("Failed to add favorite");
+      setError(err.message || "Failed to add favorite");
       throw err;
     }
   };
@@ -137,15 +166,26 @@ export function useFavoriteMeditations(): FavoritesHookReturn {
       setError(null);
       
       if (user) {
-        // Remove from Firebase
-        await removeFromFavorites(user.uid, id);
+        // Try Firebase first
+        try {
+          await removeFromFavorites(user.uid, id);
+        } catch (firebaseError: any) {
+          // If offline, remove from local storage as backup
+          if (firebaseError.message?.includes("offline")) {
+            setIsOffline(true);
+            localStore.removeFavorite(id);
+            setFirebaseFavorites(prev => prev.filter(favId => favId !== id));
+          } else {
+            throw firebaseError;
+          }
+        }
       } else {
         // Remove from local storage for guests
         localStore.removeFavorite(id);
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error("Error removing favorite:", err);
-      setError("Failed to remove favorite");
+      setError(err.message || "Failed to remove favorite");
       throw err;
     }
   };
@@ -164,6 +204,7 @@ export function useFavoriteMeditations(): FavoritesHookReturn {
     favorites,
     isLoading,
     error,
+    isOffline,
     addFavorite,
     removeFavorite,
     isFavorite,

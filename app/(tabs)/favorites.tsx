@@ -10,12 +10,11 @@ import { Meditation } from "@/types/Meditation";
 import { Ionicons } from "@expo/vector-icons";
 import { fontFamilies } from "@/constants/Fonts";
 import { useAuth } from "@/context/AuthContext";
-// import { Heart } from 'lucide-react-native';
 
 export default function FavoritesScreen() {
   const { theme } = useTheme();
   const { user } = useAuth();
-  const { favorites, isLoading, error } = useFavoriteMeditations();
+  const { favorites, isLoading, error, isOffline } = useFavoriteMeditations();
 
   const favoriteMeditations = meditations.filter((meditation) =>
     favorites.includes(meditation.id)
@@ -70,7 +69,16 @@ export default function FavoritesScreen() {
     </View>
   );
 
-  if (error) {
+  const OfflineIndicator = () => (
+    <View style={[styles.offlineIndicator, { backgroundColor: theme.warning }]}>
+      <Ionicons name="cloud-offline" size={16} color={theme.neutral0} />
+      <Text style={[styles.offlineText, { color: theme.neutral0 }]}>
+        You're offline. Changes will sync when you're back online.
+      </Text>
+    </View>
+  );
+
+  if (error && !isOffline) {
     return (
       <View
         style={[styles.container, { backgroundColor: theme.background }]}
@@ -94,6 +102,8 @@ export default function FavoritesScreen() {
 
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
+      {isOffline && <OfflineIndicator />}
+      
       <FlatList
         data={favoriteMeditations}
         renderItem={renderItem}
@@ -117,18 +127,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   loadingText: {
-    fontFamily: fontFamilies.regular,
-    fontSize: Typography.fontSizes.md,
-  },
-  headerContainer: {
-    padding: Spacing.md,
-  },
-  headerTitle: {
-    fontFamily: fontFamilies.bold,
-    fontSize: Typography.fontSizes.xxl,
-    marginBottom: Spacing.xs,
-  },
-  headerSubtitle: {
     fontFamily: fontFamilies.regular,
     fontSize: Typography.fontSizes.md,
   },
@@ -159,5 +157,17 @@ const styles = StyleSheet.create({
     fontSize: Typography.fontSizes.md,
     textAlign: "center",
     lineHeight: Typography.lineHeights.body * Typography.fontSizes.md,
+  },
+  offlineIndicator: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: Spacing.sm,
+    paddingHorizontal: Spacing.md,
+    gap: Spacing.xs,
+  },
+  offlineText: {
+    fontFamily: fontFamilies.medium,
+    fontSize: Typography.fontSizes.sm,
   },
 });
