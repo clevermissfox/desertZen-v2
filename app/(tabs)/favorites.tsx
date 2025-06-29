@@ -6,11 +6,13 @@ import { useAuth } from '@/context/AuthContext';
 import { MeditationCard } from '@/components/MeditationCard';
 import { OfflineIndicator } from '@/components/OfflineIndicator';
 import { meditations } from '@/data/meditations';
-import { Colors } from '@/constants/Colors';
-import { Typography } from '@/constants/Typography';
-import { Spacing } from '@/constants/Spacing';
+import { useTheme } from '@/hooks/useTheme';
+import Spacing from '@/constants/Spacing';
+import Typography from '@/constants/Typography';
+import { fontFamilies } from '@/constants/Fonts';
 
 export default function FavoritesScreen() {
+  const { theme } = useTheme();
   const { user } = useAuth();
   const { favorites, loading, error, isOffline, isFavorite } = useFavoriteMeditations();
   const [refreshing, setRefreshing] = React.useState(false);
@@ -29,10 +31,10 @@ export default function FavoritesScreen() {
 
   if (!user) {
     return (
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
         <View style={styles.emptyContainer}>
-          <Text style={styles.emptyTitle}>Sign In Required</Text>
-          <Text style={styles.emptyText}>
+          <Text style={[styles.emptyTitle, { color: theme.text }]}>Sign In Required</Text>
+          <Text style={[styles.emptyText, { color: theme.textSecondary }]}>
             Please sign in to view your favorite meditations.
           </Text>
         </View>
@@ -41,9 +43,9 @@ export default function FavoritesScreen() {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>My Favorites</Text>
+    <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
+      <View style={[styles.header, { borderBottomColor: theme.border }]}>
+        <Text style={[styles.title, { color: theme.text }]}>My Favorites</Text>
       </View>
 
       <OfflineIndicator isOffline={isOffline} message={error} />
@@ -56,12 +58,12 @@ export default function FavoritesScreen() {
       >
         {loading ? (
           <View style={styles.emptyContainer}>
-            <Text style={styles.emptyText}>Loading your favorites...</Text>
+            <Text style={[styles.emptyText, { color: theme.textSecondary }]}>Loading your favorites...</Text>
           </View>
         ) : favoriteMeditations.length === 0 ? (
           <View style={styles.emptyContainer}>
-            <Text style={styles.emptyTitle}>No Favorites Yet</Text>
-            <Text style={styles.emptyText}>
+            <Text style={[styles.emptyTitle, { color: theme.text }]}>No Favorites Yet</Text>
+            <Text style={[styles.emptyText, { color: theme.textSecondary }]}>
               Start exploring meditations and add them to your favorites to see them here.
             </Text>
           </View>
@@ -84,17 +86,15 @@ export default function FavoritesScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.background,
   },
   header: {
     paddingHorizontal: Spacing.lg,
     paddingVertical: Spacing.md,
     borderBottomWidth: 1,
-    borderBottomColor: Colors.border,
   },
   title: {
-    ...Typography.h1,
-    color: Colors.text,
+    fontSize: Typography.fontSizes.xxl,
+    fontFamily: fontFamilies.bold,
   },
   content: {
     flex: 1,
@@ -114,15 +114,15 @@ const styles = StyleSheet.create({
     paddingVertical: Spacing.xxl,
   },
   emptyTitle: {
-    ...Typography.h2,
-    color: Colors.text,
+    fontSize: Typography.fontSizes.xl,
+    fontFamily: fontFamilies.bold,
     marginBottom: Spacing.sm,
     textAlign: 'center',
   },
   emptyText: {
-    ...Typography.body,
-    color: Colors.textSecondary,
+    fontSize: Typography.fontSizes.md,
+    fontFamily: fontFamilies.regular,
     textAlign: 'center',
-    lineHeight: 24,
+    lineHeight: Typography.lineHeights.body * Typography.fontSizes.md,
   },
 });
