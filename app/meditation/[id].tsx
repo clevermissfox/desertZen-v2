@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   Image,
   ScrollView,
@@ -10,7 +10,6 @@ import {
   Text,
   TouchableOpacity,
   View,
-  ActivityIndicator,
 } from "react-native";
 import { AudioPlayerControls } from "../../components/AudioPlayerControls";
 import Spacing from "../../constants/Spacing";
@@ -24,8 +23,7 @@ export default function MeditationScreen() {
   const { id } = useLocalSearchParams();
   const router = useRouter();
   const { theme } = useTheme();
-  const { isFavorite, addToFavorites, removeFromFavorites } = useFavoriteMeditations();
-  const [isToggling, setIsToggling] = useState(false);
+  const { isFavorite, addFavorite, removeFavorite } = useFavoriteMeditations();
 
   const meditation = getMeditationById(id as string);
 
@@ -41,21 +39,11 @@ export default function MeditationScreen() {
 
   const favorite = isFavorite(meditation.id);
 
-  const toggleFavorite = async () => {
-    if (isToggling) return;
-    
-    setIsToggling(true);
-    try {
-      if (favorite) {
-        await removeFromFavorites(meditation.id);
-      } else {
-        await addToFavorites(meditation.id);
-      }
-    } catch (error) {
-      console.error("Error toggling favorite:", error);
-      // You could show a toast or error message here
-    } finally {
-      setIsToggling(false);
+  const toggleFavorite = () => {
+    if (favorite) {
+      removeFavorite(meditation.id);
+    } else {
+      addFavorite(meditation.id);
     }
   };
 
@@ -124,17 +112,12 @@ export default function MeditationScreen() {
               <TouchableOpacity
                 style={styles.favoriteButton}
                 onPress={toggleFavorite}
-                disabled={isToggling}
               >
-                {isToggling ? (
-                  <ActivityIndicator size="small" color={theme.accent} />
-                ) : (
-                  <Ionicons
-                    size={24}
-                    name={favorite ? "heart" : "heart-outline"}
-                    color={theme.accent}
-                  />
-                )}
+                <Ionicons
+                  size={24}
+                  name={favorite ? "heart" : "heart-outline"}
+                  color={theme.accent}
+                />
               </TouchableOpacity>
             </View>
 
