@@ -9,11 +9,13 @@ import Typography from "../../constants/Typography";
 import { Meditation } from "@/types/Meditation";
 import { Ionicons } from "@expo/vector-icons";
 import { fontFamilies } from "@/constants/Fonts";
+import { useAuth } from "@/context/AuthContext";
 // import { Heart } from 'lucide-react-native';
 
 export default function FavoritesScreen() {
   const { theme } = useTheme();
-  const { favorites, isLoading } = useFavoriteMeditations();
+  const { user } = useAuth();
+  const { favorites, isLoading, error } = useFavoriteMeditations();
 
   const favoriteMeditations = meditations.filter((meditation) =>
     favorites.includes(meditation.id)
@@ -46,9 +48,37 @@ export default function FavoritesScreen() {
       <Text style={[styles.emptyText, { color: theme.textSecondary }]}>
         Add meditations to your favorites by tapping the heart icon on any
         meditation.
+        {!user && " Sign in to sync your favorites across devices."}
       </Text>
     </View>
   );
+
+  const ErrorState = () => (
+    <View style={styles.emptyContainer}>
+      <Ionicons
+        name="alert-circle"
+        color={theme.error}
+        size={48}
+        style={styles.emptyIcon}
+      />
+      <Text style={[styles.emptyTitle, { color: theme.text }]}>
+        Error Loading Favorites
+      </Text>
+      <Text style={[styles.emptyText, { color: theme.textSecondary }]}>
+        {error || "Something went wrong. Please try again."}
+      </Text>
+    </View>
+  );
+
+  if (error) {
+    return (
+      <View
+        style={[styles.container, { backgroundColor: theme.background }]}
+      >
+        <ErrorState />
+      </View>
+    );
+  }
 
   if (isLoading) {
     return (
@@ -64,16 +94,6 @@ export default function FavoritesScreen() {
 
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
-      {/* <View style={styles.headerContainer}>
-        <Text style={[styles.headerTitle, { color: theme.text }]}>
-          Your Favorites
-        </Text>
-        <Text style={[styles.headerSubtitle, { color: theme.textSecondary }]}>
-          {favoriteMeditations.length}{" "}
-          {favoriteMeditations.length === 1 ? "meditation" : "meditations"}
-        </Text>
-      </View> */}
-
       <FlatList
         data={favoriteMeditations}
         renderItem={renderItem}
