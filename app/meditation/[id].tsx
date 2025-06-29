@@ -24,7 +24,7 @@ export default function MeditationScreen() {
   const { id } = useLocalSearchParams();
   const router = useRouter();
   const { theme } = useTheme();
-  const { isFavorite, addFavorite, removeFavorite } = useFavoriteMeditations();
+  const { isFavorite, addToFavorites, removeFromFavorites } = useFavoriteMeditations();
   const [isToggling, setIsToggling] = useState(false);
 
   const meditation = getMeditationById(id as string);
@@ -47,9 +47,9 @@ export default function MeditationScreen() {
     setIsToggling(true);
     try {
       if (favorite) {
-        await removeFavorite(meditation.id);
+        await removeFromFavorites(meditation.id);
       } else {
-        await addFavorite(meditation.id);
+        await addToFavorites(meditation.id);
       }
     } catch (error) {
       console.error("Error toggling favorite:", error);

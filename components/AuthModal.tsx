@@ -6,8 +6,10 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  Alert,
 } from "react-native";
 import { useTheme } from "../hooks/useTheme";
+import { resetPassword } from "../firebase/auth";
 import Colors from "@/constants/Colors";
 import Spacing from "@/constants/Spacing";
 import Typography from "@/constants/Typography";
@@ -33,11 +35,47 @@ export const AuthModal = ({
   const { theme } = useTheme();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isResettingPassword, setIsResettingPassword] = useState(false);
 
   const handleSubmit = () => {
     onAuth(email, password, mode);
     setEmail("");
     setPassword("");
+  };
+
+  const handleForgotPassword = async () => {
+    if (!email.trim()) {
+      Alert.alert("Email Required", "Please enter your email address first.");
+      return;
+    }
+
+    setIsResettingPassword(true);
+    try {
+      await resetPassword(email);
+      Alert.alert(
+        "Password Reset Sent",
+        "Check your email for password reset instructions.",
+        [{ text: "OK" }]
+      );
+    } catch (err: any) {
+      const errorMessage = getFriendlyResetError(err.code);
+      Alert.alert("Reset Failed", errorMessage);
+    } finally {
+      setIsResettingPassword(false);
+    }
+  };
+
+  const getFriendlyResetError = (code: string) => {
+    switch (code) {
+      case "auth/user-not-found":
+        return "No account found with this email address.";
+      case "auth/invalid-email":
+        return "Please enter a valid email address.";
+      case "auth/too-many-requests":
+        return "Too many reset attempts. Please try again later.";
+      default:
+        return "Failed to send reset email. Please try again.";
+    }
   };
 
   return (
@@ -58,55 +96,84 @@ export const AuthModal = ({
           <Text style={[textStyles.title, { color: theme.text }]}>
             {mode === "signIn" ? "Sign In" : "Sign Up"}
           </Text>
+          
           {error && (
             <Text
-              style={{
-                color: theme.accent,
-                textAlign: "center",
-                marginBottom: 8,
-              }}
+              style={[textStyles.errorText, { color: theme.accent }]}
             >
               {error}
             </Text>
           )}
+          
           <TextInput
             placeholder="Email"
             value={email}
             onChangeText={setEmail}
             style={[
               styles.input,
-              { borderColor: theme.border, color: theme.text },
+              { 
+                borderColor: theme.border, 
+                color: theme.text,
+                backgroundColor: theme.background,
+              },
             ]}
             placeholderTextColor={theme.textTertiary}
             autoCapitalize="none"
             keyboardType="email-address"
           />
+          
           <TextInput
             placeholder="Password"
             value={password}
             onChangeText={setPassword}
             style={[
               styles.input,
-              { borderColor: theme.border, color: theme.text },
+              { 
+                borderColor: theme.border, 
+                color: theme.text,
+                backgroundColor: theme.background,
+              },
             ]}
             placeholderTextColor={theme.textTertiary}
             secureTextEntry
           />
+          
           <TouchableOpacity
             style={[styles.button, { backgroundColor: theme.accent }]}
             onPress={handleSubmit}
           >
-            <Text style={[textStyles.buttonText, , { color: theme.neutral0 }]}>
+            <Text style={[textStyles.buttonText, { color: theme.neutral0 }]}>
               {mode === "signIn" ? "Sign In" : "Sign Up"}
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={onClose}>
+
+          {mode === "signIn" && (
+            <TouchableOpacity
+              onPress={handleForgotPassword}
+              disabled={isResettingPassword}
+              style={styles.forgotPasswordButton}
+            >
+              <Text
+                style={[
+                  textStyles.forgotPasswordText,
+                  { 
+                    color: isResettingPassword ? theme.textTertiary : theme.accent,
+                  },
+                ]}
+              >
+                {isResettingPassword ? "Sending..." : "Forgot Password?"}
+              </Text>
+            </TouchableOpacity>
+          )}
+
+          <TouchableOpacity onPress={onClose} style={styles.cancelButton}>
             <Text
               style={[textStyles.closeText, { color: theme.textSecondary }]}
             >
               Cancel
             </Text>
           </TouchableOpacity>
+          
           <TouchableOpacity
             onPress={() =>
               onModeChange(mode === "signIn" ? "signUp" : "signIn")
@@ -131,42 +198,73 @@ const viewStyles = StyleSheet.create({
     borderRadius: 12,
     borderWidth: 1,
     padding: 24,
-    width: "80%",
-    // shadowOffset: { width: 0, height: 1 },
+    width: "85%",
+    maxWidth: 400,
   },
   overlay: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(50, 46, 38, 0.7)",
+    backgroundColor: "rgba(47, 44, 42, 0.7)",
   },
 });
 
 const textStyles = StyleSheet.create({
   title: {
-    fontSize: Typography.fontSizes.lg,
-    // fontWeight: Typography.fontWeights.bold,
+    fontSize: Typography.fontSizes.xl,
     fontFamily: fontFamilies.bold,
-    marginBottom: Spacing.xs,
+    marginBottom: Spacing.lg,
+    textAlign: "center",
   },
   buttonText: {
     fontFamily: fontFamilies.medium,
     fontSize: Typography.fontSizes.md,
     textAlign: "center",
   },
-  closeText: { textAlign: "center", marginTop: 8 },
+  closeText: { 
+    textAlign: "center", 
+    fontFamily: fontFamilies.regular,
+    fontSize: Typography.fontSizes.md,
+  },
   modeSwitchText: {
     textAlign: "center",
-    marginTop: 8,
+    fontFamily: fontFamilies.regular,
+    fontSize: Typography.fontSizes.sm,
+  },
+  errorText: {
+    textAlign: "center",
+    marginBottom: Spacing.md,
+    fontFamily: fontFamilies.regular,
+    fontSize: Typography.fontSizes.sm,
+  },
+  forgotPasswordText: {
+    fontFamily: fontFamilies.medium,
+    fontSize: Typography.fontSizes.sm,
+    textAlign: "center",
   },
 });
 
 const styles = StyleSheet.create({
-  title: { fontSize: 20, fontWeight: "bold", marginBottom: 12 },
-  input: { borderWidth: 1, marginBottom: 12, padding: 8, borderRadius: 8 },
+  input: { 
+    borderWidth: 1, 
+    marginBottom: Spacing.md, 
+    padding: Spacing.sm, 
+    borderRadius: 8,
+    fontFamily: fontFamilies.regular,
+    fontSize: Typography.fontSizes.md,
+  },
   button: {
-    paddingVertical: Spacing.sm,
+    paddingVertical: Spacing.md,
     paddingHorizontal: Spacing.xl,
-    borderRadius: 24,
+    borderRadius: 8,
+    marginBottom: Spacing.sm,
+  },
+  forgotPasswordButton: {
+    paddingVertical: Spacing.sm,
+    marginBottom: Spacing.md,
+  },
+  cancelButton: {
+    paddingVertical: Spacing.sm,
+    marginBottom: Spacing.md,
   },
 });
