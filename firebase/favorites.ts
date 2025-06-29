@@ -9,8 +9,6 @@ import {
   arrayRemove,
   onSnapshot,
   Unsubscribe,
-  enableNetwork,
-  disableNetwork,
 } from "firebase/firestore";
 import { User } from "firebase/auth";
 
@@ -25,15 +23,6 @@ export interface UserFavorites {
 // Get user's favorites document reference
 const getUserFavoritesRef = (userId: string) => {
   return doc(db, FAVORITES_COLLECTION, userId);
-};
-
-// Check if error is due to offline status
-const isOfflineError = (error: any): boolean => {
-  return (
-    error?.code === "unavailable" ||
-    error?.message?.includes("offline") ||
-    error?.message?.includes("network")
-  );
 };
 
 // Initialize user favorites document if it doesn't exist
@@ -51,9 +40,6 @@ export const initializeUserFavorites = async (userId: string): Promise<void> => 
     }
   } catch (error) {
     console.error("Error initializing user favorites:", error);
-    if (isOfflineError(error)) {
-      throw new Error("You're offline. Please check your internet connection.");
-    }
     throw error;
   }
 };
@@ -74,10 +60,6 @@ export const getUserFavorites = async (userId: string): Promise<string[]> => {
     return [];
   } catch (error) {
     console.error("Error getting user favorites:", error);
-    if (isOfflineError(error)) {
-      // Return empty array for offline, don't throw
-      return [];
-    }
     return [];
   }
 };
@@ -96,9 +78,6 @@ export const addToFavorites = async (userId: string, meditationId: string): Prom
     });
   } catch (error) {
     console.error("Error adding to favorites:", error);
-    if (isOfflineError(error)) {
-      throw new Error("You're offline. Changes will sync when you're back online.");
-    }
     throw error;
   }
 };
@@ -114,9 +93,6 @@ export const removeFromFavorites = async (userId: string, meditationId: string):
     });
   } catch (error) {
     console.error("Error removing from favorites:", error);
-    if (isOfflineError(error)) {
-      throw new Error("You're offline. Changes will sync when you're back online.");
-    }
     throw error;
   }
 };
@@ -138,18 +114,12 @@ export const subscribeToUserFavorites = (
         // Initialize document if it doesn't exist
         initializeUserFavorites(userId).then(() => {
           callback([]);
-        }).catch((error) => {
-          console.error("Error initializing favorites:", error);
-          callback([]);
         });
       }
     },
     (error) => {
       console.error("Error listening to favorites:", error);
-      if (isOfflineError(error)) {
-        console.log("Offline - favorites will sync when connection is restored");
-      }
-      // Don't call callback with empty array on error to preserve current state
+      callback([]);
     }
   );
 };
@@ -186,13 +156,6 @@ export const syncLocalFavoritesToFirebase = async (
     }
   } catch (error) {
     console.error("Error syncing local favorites to Firebase:", error);
-    if (isOfflineError(error)) {
-      throw new Error("You're offline. Favorites will sync when you're back online.");
-    }
     throw error;
   }
 };
-
-// Enable/disable network for testing
-export const enableFirebaseNetwork = () => enableNetwork(db);
-export const disableFirebaseNetwork = () => disableNetwork(db);

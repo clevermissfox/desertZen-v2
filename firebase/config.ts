@@ -1,7 +1,9 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAuth, connectAuthEmulator } from "firebase/auth";
-import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -17,30 +19,3 @@ const firebaseConfig = {
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
-
-// Enable offline persistence for better offline experience
-import { enableNetwork, disableNetwork } from "firebase/firestore";
-
-// Function to check if we're in development and handle connection gracefully
-export const initializeFirebase = async () => {
-  try {
-    // Enable network to test connection
-    await enableNetwork(db);
-    console.log("Firebase connected successfully");
-    return true;
-  } catch (error) {
-    console.warn("Firebase connection failed, operating in offline mode:", error);
-    return false;
-  }
-};
-
-// Export connection status checker
-export const checkFirebaseConnection = async (): Promise<boolean> => {
-  try {
-    await enableNetwork(db);
-    return true;
-  } catch (error) {
-    console.warn("Firebase offline:", error);
-    return false;
-  }
-};
