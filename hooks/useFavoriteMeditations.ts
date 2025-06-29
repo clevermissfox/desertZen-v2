@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { doc, getDoc, setDoc, updateDoc, arrayUnion, arrayRemove, onSnapshot } from 'firebase/firestore';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { db } from '@/firebase/config';
 import { useAuth } from '@/context/AuthContext';
 
@@ -32,10 +33,14 @@ export function useFavoriteMeditations() {
       if (err.code === 'unavailable' || err.message?.includes('offline')) {
         setIsOffline(true);
         setError('You\'re currently offline. Favorites will sync when connection is restored.');
-        // Load from local storage as fallback
-        const localFavorites = localStorage.getItem(`favorites_${userId}`);
-        if (localFavorites) {
-          setFavorites(JSON.parse(localFavorites));
+        // Load from AsyncStorage as fallback
+        try {
+          const localFavorites = await AsyncStorage.getItem(`favorites_${userId}`);
+          if (localFavorites) {
+            setFavorites(JSON.parse(localFavorites));
+          }
+        } catch (storageError) {
+          console.error('Error loading from AsyncStorage:', storageError);
         }
       } else {
         setError('Failed to load favorites. Please try again later.');
@@ -65,12 +70,16 @@ export function useFavoriteMeditations() {
           const userFavoritesRef = doc(db, 'userFavorites', user.uid);
           unsubscribe = onSnapshot(
             userFavoritesRef,
-            (doc) => {
+            async (doc) => {
               if (doc.exists()) {
                 const newFavorites = doc.data().favorites || [];
                 setFavorites(newFavorites);
                 // Cache locally
-                localStorage.setItem(`favorites_${user.uid}`, JSON.stringify(newFavorites));
+                try {
+                  await AsyncStorage.setItem(`favorites_${user.uid}`, JSON.stringify(newFavorites));
+                } catch (storageError) {
+                  console.error('Error saving to AsyncStorage:', storageError);
+                }
               }
               setError(null);
               setIsOffline(false);
@@ -107,7 +116,11 @@ export function useFavoriteMeditations() {
       setFavorites(newFavorites);
       
       // Cache locally
-      localStorage.setItem(`favorites_${user.uid}`, JSON.stringify(newFavorites));
+      try {
+        await AsyncStorage.setItem(`favorites_${user.uid}`, JSON.stringify(newFavorites));
+      } catch (storageError) {
+        console.error('Error saving to AsyncStorage:', storageError);
+      }
 
       if (!isOffline) {
         const userFavoritesRef = doc(db, 'userFavorites', user.uid);
@@ -136,7 +149,11 @@ export function useFavoriteMeditations() {
       setFavorites(newFavorites);
       
       // Cache locally
-      localStorage.setItem(`favorites_${user.uid}`, JSON.stringify(newFavorites));
+      try {
+        await AsyncStorage.setItem(`favorites_${user.uid}`, JSON.stringify(newFavorites));
+      } catch (storageError) {
+        console.error('Error saving to AsyncStorage:', storageError);
+      }
 
       if (!isOffline) {
         const userFavoritesRef = doc(db, 'userFavorites', user.uid);
@@ -168,5 +185,8 @@ export function useFavoriteMeditations() {
     addToFavorites,
     removeFromFavorites,
     isFavorite,
+    // Add aliases for backward compatibility
+    addFavorite: addToFavorites,
+    removeFavorite: removeFromFavorites,
   };
 }

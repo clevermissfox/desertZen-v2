@@ -33,7 +33,7 @@ export default function MeditationCard({
 }: MeditationCardProps) {
   const router = useRouter();
   const { theme } = useTheme();
-  const { isFavorite, addFavorite, removeFavorite } = useFavoriteMeditations();
+  const { isFavorite, addToFavorites, removeFromFavorites } = useFavoriteMeditations();
   const [isToggling, setIsToggling] = useState(false);
 
   const favorite = isFavorite(meditation.id);
@@ -48,9 +48,9 @@ export default function MeditationCard({
     setIsToggling(true);
     try {
       if (favorite) {
-        await removeFavorite(meditation.id);
+        await removeFromFavorites(meditation.id);
       } else {
-        await addFavorite(meditation.id);
+        await addToFavorites(meditation.id);
       }
     } catch (error) {
       console.error("Error toggling favorite:", error);
